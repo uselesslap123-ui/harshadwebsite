@@ -28,7 +28,16 @@ export type Skill = {
 };
 
 export const skills: Skill[] = [
-  { name: "Basic Electronics", icon: CircuitBoard },
+  { 
+    name: "Basic Electronics", 
+    icon: CircuitBoard,
+    details: `### Key Concepts in Basic Electronics
+* **Components:** Deals with fundamental electronic components like resistors, diodes, transistors, and capacitors.
+* **Current Flow:** Explains the flow of electric current within electronic circuits.
+* **Signal Types:** Helps in understanding the difference between AC and DC signals.
+* **Real-World Applications:** Teaches how common electronic devices work in daily life.
+* **Foundation:** Forms the basis for advanced subjects like digital electronics and communication systems.`
+  },
   { 
     name: "Circuit Analysis", 
     icon: FunctionSquare,
