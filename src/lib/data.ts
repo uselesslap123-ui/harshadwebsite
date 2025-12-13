@@ -20,15 +20,36 @@ export const summary = {
   inspiring_quote: "Bridging the world of hardware and software, one line of code at a time."
 };
 
-type Skill = {
+export type Skill = {
   name: string;
   icon: LucideIcon;
   url?: string;
+  details?: string;
 };
 
 export const skills: Skill[] = [
   { name: "Basic Electronics", icon: CircuitBoard },
-  { name: "Circuit Analysis", icon: FunctionSquare },
+  { 
+    name: "Circuit Analysis", 
+    icon: FunctionSquare,
+    details: `### What I learned in Circuit Analysis
+* I learned the **basic concepts of electrical circuits** like current, voltage, and resistance.
+* I understood **Ohm’s Law** and how it is used to solve simple circuits.
+* I learned **Kirchhoff’s Current Law (KCL)** and **Kirchhoff’s Voltage Law (KVL)**.
+* I studied **series and parallel circuits** and how to calculate total resistance.
+* I learned how to **analyze simple DC circuits step by step**.
+### My experience while learning
+* At first, the subject felt **difficult and confusing**.
+* With practice, I started **understanding the logic behind formulas**.
+* Solving numerical problems improved my **confidence and speed**.
+* I learned the importance of **practice and patience** in circuit analysis.
+### How I will work ahead
+* I will **revise basics regularly** to avoid confusion.
+* I will **practice more numerical problems** daily.
+* I will focus on **understanding concepts instead of memorizing formulas**.
+* I will use **diagrams and step-by-step methods** while solving problems.
+* I will ask doubts early and **keep improving my problem-solving skills**.`
+  },
   { name: "Photography", icon: Camera, url: "https://www.instagram.com/photographic_harsh_213?igsh=MWprdm95YXllaHd4ZQ==" },
   { name: "Flutter", icon: Smartphone },
   { name: "Dart", icon: Code },
