@@ -1,16 +1,19 @@
 
 "use client";
 
-import { useState } from 'react';
+import Link from 'next/link';
 import { SectionWrapper, SectionTitle } from '@/components/shared/section-wrapper';
 import { experiences } from '@/lib/data';
 import { Briefcase } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { CertificateViewer } from './certificate-viewer';
 import { cn } from '@/lib/utils';
 
 export function Experience() {
-  const [selectedCertificate, setSelectedCertificate] = useState<string | null>(null);
+  const handleCardClick = (url: string | undefined) => {
+    if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  };
 
   return (
     <SectionWrapper id="experience" className="bg-background">
@@ -29,7 +32,15 @@ export function Experience() {
                 index % 2 === 0 ? 'md:text-left' : 'md:text-right md:ml-auto',
                 exp.certificateUrl && "cursor-pointer hover:shadow-primary/20 hover:border-primary/50"
               )}
-              onClick={() => exp.certificateUrl && setSelectedCertificate(exp.certificateUrl)}
+              onClick={() => handleCardClick(exp.certificateUrl)}
+              role={exp.certificateUrl ? 'link' : 'listitem'}
+              tabIndex={exp.certificateUrl ? 0 : -1}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleCardClick(exp.certificateUrl);
+                }
+              }}
             >
               <CardHeader>
                 <p className="text-sm text-muted-foreground">{exp.year} - {exp.company}</p>
@@ -40,10 +51,6 @@ export function Experience() {
           </div>
         ))}
       </div>
-      <CertificateViewer 
-        imageUrl={selectedCertificate}
-        onClose={() => setSelectedCertificate(null)}
-      />
     </SectionWrapper>
   );
 }
