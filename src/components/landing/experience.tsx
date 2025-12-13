@@ -1,9 +1,17 @@
+
+"use client";
+
+import { useState } from 'react';
 import { SectionWrapper, SectionTitle } from '@/components/shared/section-wrapper';
 import { experiences } from '@/lib/data';
 import { Briefcase } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { CertificateViewer } from './certificate-viewer';
+import { cn } from '@/lib/utils';
 
 export function Experience() {
+  const [selectedCertificate, setSelectedCertificate] = useState<string | null>(null);
+
   return (
     <SectionWrapper id="experience" className="bg-background">
       <SectionTitle>Experience & Training</SectionTitle>
@@ -15,7 +23,14 @@ export function Experience() {
             <div className="z-10 flex items-center justify-center order-1 bg-primary text-primary-foreground shadow-xl w-12 h-12 rounded-full">
               <Briefcase className="h-6 w-6" />
             </div>
-            <Card className={`order-1 w-full md:w-5/12 shadow-lg ${index % 2 === 0 ? 'md:text-left' : 'md:text-right md:ml-auto'}`}>
+            <Card 
+              className={cn(
+                "order-1 w-full md:w-5/12 shadow-lg",
+                index % 2 === 0 ? 'md:text-left' : 'md:text-right md:ml-auto',
+                exp.certificateUrl && "cursor-pointer hover:shadow-primary/20 hover:border-primary/50"
+              )}
+              onClick={() => exp.certificateUrl && setSelectedCertificate(exp.certificateUrl)}
+            >
               <CardHeader>
                 <p className="text-sm text-muted-foreground">{exp.year} - {exp.company}</p>
                 <CardTitle className="text-lg">{exp.title}</CardTitle>
@@ -25,6 +40,10 @@ export function Experience() {
           </div>
         ))}
       </div>
+      <CertificateViewer 
+        imageUrl={selectedCertificate}
+        onClose={() => setSelectedCertificate(null)}
+      />
     </SectionWrapper>
   );
 }
