@@ -1,7 +1,7 @@
 import {
   CircuitBoard,
   FunctionSquare,
-  BrainCircuit,
+  Camera,
   Smartphone,
   Code,
   PenTool,
@@ -28,7 +28,7 @@ type Skill = {
 export const skills: Skill[] = [
   { name: "Basic Electronics", icon: CircuitBoard },
   { name: "Circuit Analysis", icon: FunctionSquare },
-  { name: "Problem Solving", icon: BrainCircuit },
+  { name: "Photography", icon: Camera },
   { name: "Flutter", icon: Smartphone },
   { name: "Dart", icon: Code },
   { name: "UI/UX Design", icon: PenTool },
