@@ -23,12 +23,13 @@ export const summary = {
 type Skill = {
   name: string;
   icon: LucideIcon;
+  url?: string;
 };
 
 export const skills: Skill[] = [
   { name: "Basic Electronics", icon: CircuitBoard },
   { name: "Circuit Analysis", icon: FunctionSquare },
-  { name: "Photography", icon: Camera },
+  { name: "Photography", icon: Camera, url: "https://www.instagram.com/photographic_harsh_213?igsh=MWprdm95YXllaHd4ZQ==" },
   { name: "Flutter", icon: Smartphone },
   { name: "Dart", icon: Code },
   { name: "UI/UX Design", icon: PenTool },
