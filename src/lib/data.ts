@@ -209,5 +209,5 @@ export const navLinks = [
 
 export const socialLinks = [
   { name: "GitHub", url: "#", icon: "Github" },
-  { name: "LinkedIn", url: "#", icon: "Linkedin" }
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/harshad-shewale-5189b428a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", icon: "Linkedin" }
 ];
