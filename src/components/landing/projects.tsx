@@ -1,3 +1,6 @@
+
+'use client';
+
 import Image from 'next/image';
 import { SectionWrapper, SectionTitle } from '@/components/shared/section-wrapper';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
@@ -5,8 +8,26 @@ import { Button } from '@/components/ui/button';
 import { projects } from '@/lib/data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Github, ExternalLink } from 'lucide-react';
+import { useToast } from "@/hooks/use-toast"
 
 export function Projects() {
+  const { toast } = useToast()
+
+  const handleSourceClick = (projectName: string) => {
+    if (projectName === "UPI QR Generator") {
+      toast({
+        title: "Private Project",
+        description: "Admin is using this for personal work, so the source is private.",
+      })
+    } else {
+      // You can add logic here for other projects, like opening a GitHub link
+      toast({
+        title: "Coming Soon",
+        description: "The source code for this project will be available soon.",
+      })
+    }
+  }
+
   return (
     <SectionWrapper id="projects" className="bg-card">
       <SectionTitle>Projects</SectionTitle>
@@ -32,11 +53,11 @@ export function Projects() {
               </CardHeader>
               <CardContent className="flex-grow" />
               <CardFooter className="flex justify-start gap-2">
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" onClick={() => handleSourceClick(project.name)}>
                   <Github className="mr-2 h-4 w-4" />
                   Source
                 </Button>
-                <Button variant="secondary" size="sm">
+                <Button variant="secondary" size="sm" onClick={() => toast({ title: "Coming Soon", description: "A live demo will be available soon."})}>
                   <ExternalLink className="mr-2 h-4 w-4" />
                   Live Demo
                 </Button>
