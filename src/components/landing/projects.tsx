@@ -2,6 +2,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { SectionWrapper, SectionTitle } from '@/components/shared/section-wrapper';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -25,6 +26,14 @@ export function Projects() {
         title: "Coming Soon",
         description: "The source code for this project will be available soon.",
       })
+    }
+  }
+
+  const handleLiveDemoClick = (projectName: string, url?: string) => {
+    if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    } else {
+      toast({ title: "Coming Soon", description: "A live demo will be available soon."})
     }
   }
 
@@ -57,7 +66,7 @@ export function Projects() {
                   <Github className="mr-2 h-4 w-4" />
                   Source
                 </Button>
-                <Button variant="secondary" size="sm" onClick={() => toast({ title: "Coming Soon", description: "A live demo will be available soon."})}>
+                <Button variant="secondary" size="sm" onClick={() => handleLiveDemoClick(project.name, project.liveDemoUrl)}>
                   <ExternalLink className="mr-2 h-4 w-4" />
                   Live Demo
                 </Button>

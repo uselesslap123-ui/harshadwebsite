@@ -89,7 +89,7 @@ export const experiences = [
 
 export const projects = [
   { name: "Trustyatra App", description: "A travel companion app focused on safety and reliability.", imageId: "project1" },
-  { name: "UPI QR Generator", description: "A web tool to quickly generate UPI payment QR codes.", imageId: "project2" },
+  { name: "UPI QR Generator", description: "A web tool to quickly generate UPI payment QR codes.", imageId: "project2", liveDemoUrl: "https://adityashewale.vercel.app" },
   { name: "Graphic Design Portfolio", description: "A website showcasing various graphic design projects.", imageId: "project3" },
   { name: "Flower Selling Website", description: "An e-commerce platform for a local floral business.", imageId: "project4" },
   { name: "University Event Website", description: "A portal for managing and promoting university events.", imageId: "project5" },
