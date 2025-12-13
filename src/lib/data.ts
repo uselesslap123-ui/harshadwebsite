@@ -60,13 +60,76 @@ export const skills: Skill[] = [
 * I will ask doubts early and **keep improving my problem-solving skills**.`
   },
   { name: "Photography", icon: Camera, url: "https://www.instagram.com/photographic_harsh_213?igsh=MWprdm95YXllaHd4ZQ==" },
-  { name: "Flutter", icon: Smartphone },
-  { name: "Dart", icon: Code },
-  { name: "UI/UX Design", icon: PenTool },
-  { name: "App Navigation", icon: Navigation },
-  { name: "Debugging", icon: Bug },
-  { name: "Adaptability", icon: RefreshCw },
-  { name: "Eager to Learn", icon: Sparkles },
+  { 
+    name: "Flutter", 
+    icon: Smartphone,
+    details: `### Key Aspects of Flutter Development
+* **Cross-Platform:** Build natively compiled applications for mobile, web, and desktop from a single codebase.
+* **Hot Reload:** Instantly view changes in your app, leading to faster development cycles.
+* **Widget-Based UI:** Create complex UIs by composing simple, customizable widgets.
+* **Expressive UI:** Easily create beautiful and highly-animated user interfaces.
+* **Strong Community:** Backed by Google and a large, active developer community.`
+  },
+  { 
+    name: "Dart", 
+    icon: Code,
+    details: `### Core Features of Dart
+* **Optimized for UI:** Specifically designed for building user interfaces with features like null safety.
+* **High Performance:** Compiles to fast, native code for mobile and desktop.
+* **Productive Development:** Offers a flexible and robust syntax that is easy to learn.
+* **Asynchronous Programming:** Excellent support for asynchronous operations, crucial for responsive apps.
+* **Multi-Platform:** The language behind Flutter, enabling code to run on various platforms.`
+  },
+  { 
+    name: "UI/UX Design", 
+    icon: PenTool,
+    details: `### Principles of UI/UX Design
+* **User-Centric:** Focuses on understanding user behaviors, needs, and motivations.
+* **Wireframing & Prototyping:** Creating low and high-fidelity mockups to visualize the user flow.
+* **Intuitive Interfaces:** Designing layouts that are easy to navigate and understand.
+* **Visual Hierarchy:** Guiding the user's attention to the most important elements.
+* **Feedback & Iteration:** Continuously improving the design based on user testing and feedback.`
+  },
+  { 
+    name: "App Navigation", 
+    icon: Navigation,
+    details: `### Core Concepts of App Navigation
+* **User Flow:** Mapping out the path a user takes to complete a task.
+* **Navigation Patterns:** Implementing standard patterns like tabs, drawers, and stacks.
+* **State Management:** Managing the app's state to handle different navigation scenarios.
+* **Deep Linking:** Allowing users to navigate directly to specific content within the app.
+* **Accessibility:** Ensuring navigation is usable for everyone, including those with disabilities.`
+  },
+  { 
+    name: "Debugging", 
+    icon: Bug,
+    details: `### Effective Debugging Techniques
+* **Problem Identification:** Systematically identifying, isolating, and fixing issues in code.
+* **Using Breakpoints:** Pausing code execution to inspect variables and program state.
+* **Reading Logs:** Analyzing error messages and logs to trace the source of a problem.
+* **Reproducing Bugs:** Reliably recreating issues to understand their cause.
+* **Version Control:** Using tools like Git to track changes and revert to working states.`
+  },
+  { 
+    name: "Adaptability", 
+    icon: RefreshCw,
+    details: `### Key Traits of Adaptability
+* **Flexible Mindset:** Being open to new ideas, technologies, and changing project requirements.
+* **Problem Solving:** Adjusting strategies to overcome unexpected challenges.
+* **Continuous Learning:** Proactively acquiring new skills to stay relevant in a fast-paced industry.
+* **Resilience:** Maintaining performance and a positive attitude during times of change.
+* **Collaboration:** Effectively working with different teams and personalities.`
+  },
+  { 
+    name: "Eager to Learn", 
+    icon: Sparkles,
+    details: `### Demonstrating Eagerness to Learn
+* **Curiosity:** Actively seeking out new knowledge and asking insightful questions.
+* **Proactive Learning:** Independently exploring new technologies and concepts beyond coursework.
+* **Seeking Feedback:** Viewing constructive criticism as an opportunity for growth.
+* **Applying Knowledge:** Putting newly learned skills into practice through personal projects.
+* **Staying Current:** Following industry trends and engaging with the developer community.`
+  },
 ];
 
 export const experiences = [
