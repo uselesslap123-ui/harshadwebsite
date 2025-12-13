@@ -85,6 +85,7 @@ export const experiences = [
         company: "Bootcamp",
         title: "Full Stack AI Development",
         description: "Comprehensive bootcamp covering the entire stack of AI application development, from backend models to frontend interfaces.",
+        certificateUrl: "https://www.linkedin.com/posts/kumarmajethia_join-our-2nd-in-person-full-stack-ai-bootcamp-activity-7350215846272630786-dhiw?utm_source=social_share_video_v2&utm_medium=android_app&rcm=ACoAAEZFZOQBuT5l1pOw_DuSRnMu77_NBxH__Mk&utm_campaign=copy_link",
     },
 ];
 
