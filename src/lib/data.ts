@@ -73,6 +73,7 @@ export const experiences = [
         company: "Deloitte",
         title: "Job Simulation",
         description: "Engaged in a virtual experience simulating real-world tasks and challenges faced by technology consultants.",
+        certificateUrl: "https://www.linkedin.com/posts/harshad-shewale-5189b428a_winterinternship-internship2025-winterintern-activity-7354917636368986113-l7JT?utm_source=social_share_send&utm_medium=android_app&rcm=ACoAAEZFZOQBuT5l1pOw_DuSRnMu77_NBxH__Mk&utm_campaign=copy_link",
     },
     {
         year: "2025",
