@@ -173,6 +173,7 @@ export const experiences = [
         company: "Workshop",
         title: "GenAI Data Analyst",
         description: "Intensive workshop on leveraging Generative AI for data analysis and interpretation.",
+        certificateUrl: "https://www.linkedin.com/posts/harshad-shewale-5189b428a_genai-aiinanalytics-dataanalytics-activity-7398620806236291072-kg17?utm_source=social_share_send&utm_medium=android_app&rcm=ACoAAEZFZOQBuT5l1pOw_DuSRnMu77_NBxH__Mk&utm_campaign=share_via",
     },
     {
         year: "2025",
