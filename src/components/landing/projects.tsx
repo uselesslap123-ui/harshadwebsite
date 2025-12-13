@@ -1,0 +1,50 @@
+import Image from 'next/image';
+import { SectionWrapper, SectionTitle } from '@/components/shared/section-wrapper';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { projects } from '@/lib/data';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { Github, ExternalLink } from 'lucide-react';
+
+export function Projects() {
+  return (
+    <SectionWrapper id="projects" className="bg-card">
+      <SectionTitle>Projects</SectionTitle>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {projects.map((project, index) => {
+          const projectImage = PlaceHolderImages.find(p => p.id === project.imageId);
+          return (
+            <Card key={index} className="flex flex-col overflow-hidden group hover:shadow-xl transition-shadow duration-300">
+              {projectImage && (
+                <div className="relative h-48 w-full overflow-hidden">
+                    <Image
+                      src={projectImage.imageUrl}
+                      alt={project.name}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      data-ai-hint={projectImage.imageHint}
+                    />
+                </div>
+              )}
+              <CardHeader>
+                <CardTitle>{project.name}</CardTitle>
+                <CardDescription>{project.description}</CardDescription>
+              </CardHeader>
+              <CardContent className="flex-grow" />
+              <CardFooter className="flex justify-start gap-2">
+                <Button variant="outline" size="sm">
+                  <Github className="mr-2 h-4 w-4" />
+                  Source
+                </Button>
+                <Button variant="secondary" size="sm">
+                  <ExternalLink className="mr-2 h-4 w-4" />
+                  Live Demo
+                </Button>
+              </CardFooter>
+            </Card>
+          );
+        })}
+      </div>
+    </SectionWrapper>
+  );
+}

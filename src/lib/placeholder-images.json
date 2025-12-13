@@ -1,3 +1,46 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero",
+      "description": "Abstract violet and indigo technology background",
+      "imageUrl": "https://images.unsplash.com/photo-1644088379091-d574269d422f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMHRlY2hub2xvZ3l8ZW58MHx8fHwxNzY1NTg4MDMyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract technology"
+    },
+    {
+      "id": "project1",
+      "description": "A person using a travel app on a phone",
+      "imageUrl": "https://images.unsplash.com/photo-1485712207830-8a665e701494?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx0cmF2ZWwlMjBhcHB8ZW58MHx8fHwxNzY1NjE2NzY5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "travel app"
+    },
+    {
+      "id": "project2",
+      "description": "A QR code being scanned on a smartphone",
+      "imageUrl": "https://images.unsplash.com/photo-1600147131759-880e94a6185f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxxciUyMGNvZGV8ZW58MHx8fHwxNzY1NjE0Mzk4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "qr code"
+    },
+    {
+      "id": "project3",
+      "description": "A sleek graphic design portfolio on a laptop screen",
+      "imageUrl": "https://images.unsplash.com/photo-1609921212029-bb5a28e60960?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxncmFwaGljJTIwZGVzaWdufGVufDB8fHx8MTc2NTUzNTU1NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "graphic design"
+    },
+    {
+      "id": "project4",
+      "description": "A vibrant bouquet of flowers",
+      "imageUrl": "https://images.unsplash.com/photo-1602615576820-ea14cf3e476a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxmbG93ZXJzfGVufDB8fHx8MTc2NTY0MDUwN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "flowers"
+    },
+    {
+      "id": "project5",
+      "description": "Students at a university event",
+      "imageUrl": "https://images.unsplash.com/photo-1745610976636-1686a70d3a7d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx1bml2ZXJzaXR5JTIwZXZlbnR8ZW58MHx8fHwxNzY1NjQwNTA4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "university event"
+    },
+    {
+      "id": "project6",
+      "description": "A chatbot interface on a screen",
+      "imageUrl": "https://images.unsplash.com/photo-1762330470070-249e7c23c8c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjaGF0Ym90JTIwaW50ZXJmYWNlfGVufDB8fHx8MTc2NTYxNjEzNnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "chatbot interface"
+    }
+  ]
 }
