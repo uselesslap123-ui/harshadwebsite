@@ -12,7 +12,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 
-export const studentName = "Rutuja Haral";
+export const studentName = "Harshad Shewale";
 
 export const summary = {
   title: "Aspiring Electronics Engineer & Developer",
