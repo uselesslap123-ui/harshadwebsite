@@ -27,7 +27,7 @@ export function Hero() {
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold leading-tight drop-shadow-lg">
           {studentName}
         </h1>
-        <p className="mt-4 max-w-2xl text-lg md:text-xl text-primary-foreground/90 italic drop-shadow-md">
+        <p className="mt-4 max-w-2xl text-lg md:text-xl text-white italic drop-shadow-md">
           {summary.inspiring_quote}
         </p>
         <Button asChild size="lg" className="mt-8 bg-accent hover:bg-accent/90 text-accent-foreground group">
