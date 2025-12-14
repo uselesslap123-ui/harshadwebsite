@@ -12,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { motion } from 'framer-motion';
 
 function SkillDetailsDialog({ skill, open, onOpenChange }: { skill: Skill | null, open: boolean, onOpenChange: (open: boolean) => void }) {
   if (!skill || !skill.details) return null;
@@ -78,28 +79,35 @@ export function Skills() {
 
   return (
     <SectionWrapper id="skills" className="bg-card">
-      <SectionTitle>My Skillset</SectionTitle>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 max-w-5xl mx-auto">
-        {skills.map((skill, index) => {
-          if (skill.url) {
-            return (
-              <Link key={`link-${index}`} href={skill.url} target="_blank" rel="noopener noreferrer" className="block h-full">
-                {contentForSkill(skill, index)}
-              </Link>
-            );
-          }
-          return contentForSkill(skill, index);
-        })}
-      </div>
-      <SkillDetailsDialog 
-        skill={selectedSkill}
-        open={!!selectedSkill}
-        onOpenChange={(isOpen) => {
-          if (!isOpen) {
-            setSelectedSkill(null);
-          }
-        }}
-      />
+        <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ amount: 0.2 }}
+            transition={{ duration: 0.5 }}
+        >
+            <SectionTitle>My Skillset</SectionTitle>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 max-w-5xl mx-auto">
+                {skills.map((skill, index) => {
+                if (skill.url) {
+                    return (
+                    <Link key={`link-${index}`} href={skill.url} target="_blank" rel="noopener noreferrer" className="block h-full">
+                        {contentForSkill(skill, index)}
+                    </Link>
+                    );
+                }
+                return contentForSkill(skill, index);
+                })}
+            </div>
+        </motion.div>
+        <SkillDetailsDialog 
+            skill={selectedSkill}
+            open={!!selectedSkill}
+            onOpenChange={(isOpen) => {
+                if (!isOpen) {
+                setSelectedSkill(null);
+                }
+            }}
+        />
     </SectionWrapper>
   );
 }
