@@ -1,10 +1,10 @@
-import type {Metadata} from 'next';
+import type { Metadata } from 'next';
 import './globals.css';
-import { Toaster } from "@/components/ui/toaster";
-import { AppThemeProvider } from '@/components/theme-provider';
+import { studentName } from '@/lib/data';
+import { AppClientLayout } from '@/components/app-client-layout';
 
 export const metadata: Metadata = {
-  title: 'Harshad Shewale | Portfolio',
+  title: `${studentName} | Portfolio`,
   description: 'AI-Enhanced Portfolio for an Aspiring Electronics Engineer & Developer',
 };
 
@@ -16,20 +16,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
+        <title>{studentName} | Portfolio</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased">
-        <AppThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-        >
-            {children}
-            <Toaster />
-        </AppThemeProvider>
+        <AppClientLayout>{children}</AppClientLayout>
       </body>
     </html>
   );

@@ -1,3 +1,6 @@
+
+'use client';
+
 import { Header } from '@/components/landing/header';
 import { Hero } from '@/components/landing/hero';
 import { Summary } from '@/components/landing/summary';
@@ -9,7 +12,7 @@ import { Footer } from '@/components/landing/footer';
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-dvh bg-background text-foreground">
+    <div className="flex flex-col min-h-dvh bg-background text-foreground animate-fade-in">
       <Header />
       <main className="flex-grow">
         <Hero />
