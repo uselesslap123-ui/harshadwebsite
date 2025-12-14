@@ -30,7 +30,7 @@ export function Hero() {
         <p className="mt-4 max-w-2xl text-lg md:text-xl text-white italic drop-shadow-md">
           {summary.inspiring_quote}
         </p>
-        <Button asChild size="lg" className="mt-8 bg-accent hover:bg-accent/90 text-accent-foreground group">
+        <Button asChild size="lg" className="mt-8 bg-accent hover:bg-accent/90 text-accent-foreground group shadow-lg hover:shadow-2xl hover:shadow-accent/30 transition-all duration-300 hover:-translate-y-1">
           <Link href="#projects">
             View My Work
             <ArrowDown className="ml-2 h-5 w-5 transition-transform group-hover:translate-y-1" />
