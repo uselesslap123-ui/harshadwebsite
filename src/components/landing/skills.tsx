@@ -67,7 +67,7 @@ export function Skills() {
       <Card 
         key={index}
         onClick={!skill.url ? () => handleSkillClick(skill) : undefined}
-        className={`group hover:shadow-lg hover:-translate-y-1 active:shadow-xl active:scale-95 transition-all duration-300 h-full ${isClickable ? 'cursor-pointer' : ''}`}
+        className={`group hover:shadow-lg hover:-translate-y-1 active:shadow-2xl active:scale-95 transition-all duration-300 h-full ${isClickable ? 'cursor-pointer' : ''}`}
       >
         <CardContent className="flex flex-col items-center justify-center p-6 text-center h-full">
           <skill.icon className="h-10 w-10 mb-4 text-primary group-hover:scale-110 transition-transform" />
@@ -84,6 +84,9 @@ export function Skills() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ amount: 0.2 }}
             transition={{ duration: 0.5 }}
+            whileFocus={{}}
+            whileHover={{}}
+            whileTap={{}}
         >
             <SectionTitle>My Skillset</SectionTitle>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 max-w-5xl mx-auto">
