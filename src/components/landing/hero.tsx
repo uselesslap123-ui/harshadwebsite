@@ -24,7 +24,7 @@ export function Hero() {
       <div className="absolute inset-0 bg-primary/30" />
 
       <div className="relative z-10 p-4 flex flex-col items-center">
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold leading-tight drop-shadow-lg">
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold leading-tight drop-shadow-lg transition-all duration-300 hover:scale-105 hover:text-white active:scale-95 cursor-pointer">
           {studentName}
         </h1>
         <p className="mt-4 max-w-2xl text-lg md:text-xl text-white italic drop-shadow-md">
