@@ -8,6 +8,7 @@ import { Skills } from '@/components/landing/skills';
 import { Experience } from '@/components/landing/experience';
 import { Projects } from '@/components/landing/projects';
 import { Education } from '@/components/landing/education';
+import { Contact } from '@/components/landing/contact';
 import { Footer } from '@/components/landing/footer';
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
         <Experience />
         <Projects />
         <Education />
+        <Contact />
       </main>
       <Footer />
     </div>
