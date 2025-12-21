@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, X, BrainCircuit } from 'lucide-react';
+import { Menu, X, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { studentName, navLinks } from '@/lib/data';
@@ -32,7 +32,7 @@ export function Header() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-            <BrainCircuit className="h-6 w-6 text-primary" />
+            <Sparkles className="h-6 w-6 text-primary" />
             <span className="font-headline">{studentName}</span>
           </Link>
 
@@ -64,7 +64,7 @@ export function Header() {
                 <div className="flex flex-col h-full">
                    <div className="flex items-center justify-between p-4 border-b">
                      <Link href="/" className="flex items-center gap-2 font-bold text-lg" onClick={() => setOpen(false)}>
-                        <BrainCircuit className="h-6 w-6 text-primary" />
+                        <Sparkles className="h-6 w-6 text-primary" />
                         <span className="font-headline">{studentName}</span>
                      </Link>
                      <Button variant="ghost" size="icon" onClick={() => setOpen(false)}>
