@@ -47,7 +47,9 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
-            <ThemeToggle />
+            <div className="ml-2">
+              <ThemeToggle />
+            </div>
           </nav>
 
           {/* Mobile Navigation */}
