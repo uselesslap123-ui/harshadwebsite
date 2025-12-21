@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -36,12 +37,12 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-2 text-sm font-medium">
+          <nav className="hidden md:flex items-center gap-1 text-sm font-medium">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-foreground/80 hover:text-primary transition-colors px-4 py-2"
+                className="text-foreground/80 hover:text-accent-foreground hover:bg-accent transition-colors px-3 py-2 rounded-md"
               >
                 {link.label}
               </Link>
@@ -59,7 +60,7 @@ export function Header() {
                   <span className="sr-only">Open menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left">
+              <SheetContent side="left" className="p-0">
                 <div className="flex flex-col h-full">
                    <div className="flex items-center justify-between p-4 border-b">
                      <Link href="/" className="flex items-center gap-2 font-bold text-lg" onClick={() => setOpen(false)}>
@@ -71,12 +72,12 @@ export function Header() {
                         <span className="sr-only">Close menu</span>
                      </Button>
                    </div>
-                  <nav className="flex flex-col items-start gap-4 p-4">
+                  <nav className="flex flex-col items-start gap-2 p-4">
                     {navLinks.map((link) => (
                       <Link
                         key={link.href}
                         href={link.href}
-                        className="text-lg font-medium text-foreground/80 hover:text-primary transition-colors"
+                        className="text-lg font-medium text-foreground/80 hover:text-primary transition-colors w-full p-2 rounded-md"
                         onClick={() => setOpen(false)}
                       >
                         {link.label}
