@@ -93,7 +93,7 @@ export function Contact() {
   };
 
   return (
-    <SectionWrapper id="contact" className="bg-card">
+    <SectionWrapper id="contact" className="bg-background">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -101,8 +101,8 @@ export function Contact() {
         transition={{ duration: 0.5 }}
       >
         <SectionTitle>Contact Me</SectionTitle>
-        <Card className="max-w-3xl mx-auto shadow-lg">
-          <CardContent className="p-6">
+        <Card className="max-w-3xl mx-auto shadow-lg border-border/50">
+          <CardContent className="p-6 sm:p-8">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
@@ -146,7 +146,7 @@ export function Contact() {
                             type="button"
                             size="icon"
                             variant="ghost"
-                            className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 text-primary hover:bg-primary/10"
+                            className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 text-primary hover:bg-primary/10 rounded-full"
                             onClick={handleGenerateMessage}
                             disabled={isGenerating}
                             aria-label="Generate message with AI"
