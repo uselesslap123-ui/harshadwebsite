@@ -14,7 +14,7 @@ export function SplashScreen() {
         className="text-center"
       >
         <h1 className="text-3xl md:text-5xl font-headline font-bold text-primary drop-shadow-md">
-          Hello! {studentName.split(' ')[0]} this side
+          {`Hello! ${studentName.split(' ')[0]} this side`}
         </h1>
       </motion.div>
     </div>
