@@ -3,7 +3,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, Send, X, Bot, User, Loader2 } from 'lucide-react';
+import { Bot, Send, X, User, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -80,7 +80,7 @@ export function AiChatAssistant() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed bottom-24 right-4 z-50 w-[calc(100vw-2rem)] max-w-md"
+            className="fixed bottom-24 right-4 z-50 w-[calc(100vw-2rem)] max-w-sm"
           >
             <Card className="shadow-2xl rounded-xl overflow-hidden">
               <CardHeader className="flex flex-row items-center justify-between bg-card p-4 border-b">
@@ -156,7 +156,7 @@ export function AiChatAssistant() {
         className="fixed bottom-4 right-4 z-50"
       >
         <Button size="lg" className="rounded-full shadow-lg h-16 w-16" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X className="h-7 w-7" /> : <MessageSquare className="h-7 w-7" />}
+          {isOpen ? <X className="h-7 w-7" /> : <Bot className="h-7 w-7" />}
           <span className="sr-only">Toggle Chat</span>
         </Button>
       </motion.div>
