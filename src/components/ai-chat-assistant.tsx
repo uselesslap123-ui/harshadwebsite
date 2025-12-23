@@ -36,11 +36,14 @@ export function AiChatAssistant() {
   }, [isOpen]);
 
   useEffect(() => {
-    // Scroll to the bottom when new messages are added
     if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTo({ top: scrollAreaRef.current.scrollHeight, behavior: 'smooth' });
+      const scrollableNode = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+      if (scrollableNode) {
+        scrollableNode.scrollTo({ top: scrollableNode.scrollHeight, behavior: 'smooth' });
+      }
     }
-  }, [messages]);
+  }, [messages, isLoading]);
+
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,22 +80,22 @@ export function AiChatAssistant() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed bottom-24 right-4 z-50 w-[calc(100vw-2rem)] max-w-sm"
+            className="fixed bottom-24 right-4 z-50 w-[calc(100vw-2rem)] max-w-md"
           >
-            <Card className="shadow-2xl">
-              <CardHeader className="flex flex-row items-center justify-between">
+            <Card className="shadow-2xl rounded-xl overflow-hidden">
+              <CardHeader className="flex flex-row items-center justify-between bg-card p-4 border-b">
                 <div className="flex items-center gap-3">
-                  <Avatar>
-                    <AvatarFallback><Bot /></AvatarFallback>
+                  <Avatar className="h-9 w-9 border-2 border-primary">
+                    <AvatarFallback className="bg-primary/20"><Bot className="text-primary"/></AvatarFallback>
                   </Avatar>
-                  <CardTitle className="text-lg">AI Assistant</CardTitle>
+                  <CardTitle className="text-lg font-headline">AI Assistant</CardTitle>
                 </div>
-                <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
+                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setIsOpen(false)}>
                   <X className="h-5 w-5" />
                 </Button>
               </CardHeader>
-              <CardContent className="p-0">
-                <ScrollArea className="h-96 w-full p-4" ref={scrollAreaRef}>
+              <CardContent className="p-0 bg-background/50">
+                <ScrollArea className="h-80 w-full p-4" ref={scrollAreaRef}>
                   <div className="space-y-4">
                     {messages.map((msg, index) => (
                       <div key={index} className={`flex items-start gap-3 ${msg.role === 'user' ? 'justify-end' : ''}`}>
@@ -101,10 +104,10 @@ export function AiChatAssistant() {
                              <AvatarFallback><Bot className="h-5 w-5" /></AvatarFallback>
                            </Avatar>
                         )}
-                        <div className={`rounded-lg px-4 py-2 max-w-[80%] ${
+                        <div className={`rounded-lg px-4 py-2 max-w-[80%] shadow-sm ${
                           msg.role === 'user'
                             ? 'bg-primary text-primary-foreground'
-                            : 'bg-muted'
+                            : 'bg-card'
                         }`}>
                           <p className="text-sm">{msg.parts[0].text}</p>
                         </div>
@@ -120,23 +123,24 @@ export function AiChatAssistant() {
                            <Avatar className="h-8 w-8">
                              <AvatarFallback><Bot className="h-5 w-5" /></AvatarFallback>
                            </Avatar>
-                           <div className="rounded-lg px-4 py-2 bg-muted flex items-center">
-                               <Loader2 className="h-5 w-5 animate-spin"/>
+                           <div className="rounded-lg px-4 py-2 bg-card flex items-center shadow-sm">
+                               <Loader2 className="h-5 w-5 animate-spin text-primary"/>
                            </div>
                        </div>
                     )}
                   </div>
                 </ScrollArea>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="p-2 border-t bg-card">
                 <form onSubmit={handleSendMessage} className="flex w-full items-center gap-2">
                   <Input
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Ask something..."
                     disabled={isLoading}
+                    className="bg-background"
                   />
-                  <Button type="submit" size="icon" disabled={isLoading}>
+                  <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>
                     <Send className="h-5 w-5" />
                   </Button>
                 </form>
@@ -148,7 +152,7 @@ export function AiChatAssistant() {
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        transition={{ delay: 0.5, duration: 0.3, ease: 'easeOut' }}
+        transition={{ delay: 0.5, type: 'spring', stiffness: 260, damping: 20 }}
         className="fixed bottom-4 right-4 z-50"
       >
         <Button size="lg" className="rounded-full shadow-lg h-16 w-16" onClick={() => setIsOpen(!isOpen)}>
