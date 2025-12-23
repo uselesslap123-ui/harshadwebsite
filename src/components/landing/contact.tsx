@@ -93,7 +93,7 @@ export function Contact() {
   };
 
   return (
-    <SectionWrapper id="contact" className="bg-background">
+    <SectionWrapper id="contact" className="bg-card">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
