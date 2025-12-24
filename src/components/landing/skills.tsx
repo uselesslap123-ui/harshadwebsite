@@ -82,11 +82,8 @@ export function Skills() {
         <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ amount: 0.2 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.5 }}
-            whileFocus={{}}
-            whileHover={{}}
-            whileTap={{}}
         >
             <SectionTitle>My Skillset</SectionTitle>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 max-w-5xl mx-auto">
