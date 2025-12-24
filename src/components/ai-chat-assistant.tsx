@@ -55,7 +55,7 @@ export function AiChatAssistant() {
     setIsLoading(true);
 
     try {
-      const history = messages.slice(); // Pass a copy of the history
+      const history = messages.filter(m => m.role === 'user'); // Pass only user messages in history
       const result = await chatWithAssistant({ history, message: input });
       const assistantMessage: Message = { role: 'model', parts: [{ text: result.response }] };
       setMessages(prev => [...prev, assistantMessage]);
