@@ -33,7 +33,14 @@ export function Hero() {
                 whileTap={{ scale: 0.95, rotate: -2 }}
                 transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-                Hi, I'm <span className="text-primary">{studentName.split(' ')[0]}</span>
+                Hi, I'm{' '}
+                <motion.span 
+                    className="text-primary"
+                    whileHover={{ scale: 1.1, filter: "brightness(1.2)" }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                >
+                    {studentName.split(' ')[0]}
+                </motion.span>
             </motion.h1>
             <p className="mt-4 max-w-3xl mx-auto text-xl md:text-2xl text-slate-300 italic drop-shadow-md">
                 {summary.inspiring_quote}
