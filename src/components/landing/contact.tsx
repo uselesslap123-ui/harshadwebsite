@@ -77,10 +77,14 @@ export function Contact() {
 
   const handleResumeDownload = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    toast({
-      title: "Resume Coming Soon!",
-      description: "The resume is not yet available for download. Please check back later.",
-    });
+    // This will trigger a download of the resume from the public folder.
+    // Make sure your resume file is named 'Harshad_Shewale_Resume.pdf' and is in the 'public' directory.
+    const link = document.createElement('a');
+    link.href = '/Harshad_Shewale_Resume.pdf';
+    link.download = 'Harshad_Shewale_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
