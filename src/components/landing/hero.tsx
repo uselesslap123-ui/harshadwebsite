@@ -55,10 +55,10 @@ export function Hero() {
         >
             <div className="relative aspect-square">
                 <BlobShape />
-                {heroImage && (
+                
                     <div className="absolute inset-0 p-8 transform scale-[0.85] translate-y-[-2%]">
                         <Image
-                            src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtYWxlJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzY1ODcyMDU4fDA&ixlib=rb-4.1.0&q=80&w=1080"
+                            src="/profile.jpg"
                             alt="Portrait of Harshad Shewale"
                             fill
                             className="object-cover rounded-full"
@@ -66,7 +66,7 @@ export function Hero() {
                             priority
                         />
                     </div>
-                )}
+                
             </div>
         </motion.div>
       </div>
