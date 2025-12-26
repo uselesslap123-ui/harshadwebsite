@@ -75,6 +75,14 @@ export function Contact() {
     }
   };
 
+  const handleResumeDownload = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    toast({
+      title: "Resume Coming Soon!",
+      description: "The resume is not yet available for download. Please check back later.",
+    });
+  };
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
     // Here you would typically send the form data to a backend service
@@ -177,12 +185,10 @@ export function Contact() {
                   )}
                 />
                 <div className="flex flex-col sm:flex-row justify-end gap-4">
-                   <Button asChild size="lg" variant="outline">
-                      <a href="/Harshad_Shewale_Resume.pdf" download>
+                   <Button size="lg" variant="outline" onClick={handleResumeDownload}>
                         <FileText className="mr-2 h-4 w-4" />
                         Download Resume
-                      </a>
-                  </Button>
+                   </Button>
                   <Button type="submit" size="lg" disabled={isSubmitting}>
                     {isSubmitting ? (
                       <>
