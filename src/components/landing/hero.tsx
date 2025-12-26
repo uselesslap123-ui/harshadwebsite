@@ -10,7 +10,7 @@ import { motion, useAnimation } from 'framer-motion';
 export function Hero() {
 
   return (
-    <section className="relative py-20 md:py-32 lg:py-40 overflow-hidden">
+    <section className="relative py-20 md:py-32 lg:py-40 overflow-hidden animated-bg">
       <div className="container mx-auto px-4 grid grid-cols-1 items-center relative z-10">
         <motion.div 
             className="text-center"
