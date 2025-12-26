@@ -14,7 +14,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { generateContactMessage } from '@/ai/flows/generate-contact-message';
-import { Sparkles, Send, Loader2, FileText } from 'lucide-react';
+import { Sparkles, Send, Loader2, FileText, Download } from 'lucide-react';
 import { studentName } from '@/lib/data';
 import Link from 'next/link';
 
@@ -198,7 +198,7 @@ export function Contact() {
                 />
                 <div className="flex flex-col sm:flex-row justify-end gap-4">
                    <Button size="lg" variant="outline" onClick={handleResumeDownload}>
-                        <FileText className="mr-2 h-4 w-4" />
+                        <Download className="mr-2 h-4 w-4" />
                         Download Resume
                    </Button>
                   <Button asChild size="lg" variant="outline">
