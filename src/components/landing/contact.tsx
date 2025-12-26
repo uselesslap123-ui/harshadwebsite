@@ -14,7 +14,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { generateContactMessage } from '@/ai/flows/generate-contact-message';
-import { Sparkles, Send, Loader2 } from 'lucide-react';
+import { Sparkles, Send, Loader2, FileText } from 'lucide-react';
 import { studentName } from '@/lib/data';
 
 const formSchema = z.object({
@@ -176,7 +176,13 @@ export function Contact() {
                     </FormItem>
                   )}
                 />
-                <div className="text-right">
+                <div className="flex flex-col sm:flex-row justify-end gap-4">
+                   <Button asChild size="lg" variant="outline">
+                      <a href="/Harshad_Shewale_Resume.pdf" download>
+                        <FileText className="mr-2 h-4 w-4" />
+                        Download Resume
+                      </a>
+                  </Button>
                   <Button type="submit" size="lg" disabled={isSubmitting}>
                     {isSubmitting ? (
                       <>
