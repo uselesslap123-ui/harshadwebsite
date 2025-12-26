@@ -13,15 +13,13 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { generateContactMessage } from '@/ai/flows/generate-contact-message';
-import { Sparkles, Send, Loader2, FileText, Download } from 'lucide-react';
-import { studentName } from '@/lib/data';
+import { Send, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
   email: z.string().email({ message: 'Please enter a valid email.' }),
-  keywords: z.string().min(3, { message: 'Please provide some keywords.' }),
+  subject: z.string().min(3, { message: 'Please provide a subject.' }),
   message: z.string().min(10, { message: 'Message must be at least 10 characters.' }),
 });
 
@@ -33,7 +31,6 @@ const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 
 export function Contact() {
-  const [isGenerating, setIsGenerating] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
@@ -42,70 +39,36 @@ export function Contact() {
     defaultValues: {
       name: '',
       email: '',
-      keywords: '',
+      subject: '',
       message: '',
     },
   });
 
-  const handleGenerateMessage = async () => {
-    const { name, email, keywords } = form.getValues();
-    if (!keywords || !name || !email) {
-      toast({
-        variant: 'destructive',
-        title: 'Missing Information',
-        description: 'Please fill in your name, email, and some keywords before generating a message.',
-      });
-      return;
-    }
-
-    setIsGenerating(true);
-    try {
-      const result = await generateContactMessage({
-        name,
-        email,
-        keywords,
-        recipientName: studentName,
-      });
-      form.setValue('message', result.message);
-      toast({
-        title: 'Message Generated!',
-        description: 'The AI has drafted a message for you. Feel free to edit it.',
-      });
-    } catch (error) {
-      console.error(error);
-      toast({
-        variant: 'destructive',
-        title: 'AI Generation Failed',
-        description: 'Could not generate a message. Please try again.',
-      });
-    } finally {
-      setIsGenerating(false);
-    }
-  };
-
-  const handleResumeDownload = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    // This will trigger a download of the resume from the public folder.
-    // Make sure your resume file is named 'Harshad_Shewale_Resume.pdf' and is in the 'public' directory.
-    const link = document.createElement('a');
-    link.href = '/Harshad_Shewale_Resume.pdf';
-    link.download = 'Harshad_Shewale_Resume.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
-    // Here you would typically send the form data to a backend service
-    console.log(values);
 
-    // Simulate network request
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    const { name, email, subject, message } = values;
+    const phoneNumber = "9130947966";
+    
+    const formattedMessage = `
+*Contact Form Submission*
+-------------------------
+*Name:* ${name}
+*Email:* ${email}
+*Subject:* ${subject}
 
+*Message:*
+${message}
+    `.trim();
+
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(formattedMessage)}`;
+
+    // Open WhatsApp in a new tab
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    
     toast({
-      title: 'Message Sent!',
-      description: "Thanks for reaching out! I'll get back to you soon.",
+      title: 'Redirecting to WhatsApp',
+      description: "Your message is ready to be sent!",
     });
 
     form.reset();
@@ -120,7 +83,14 @@ export function Contact() {
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.5 }}
       >
-        <SectionTitle>Contact Me</SectionTitle>
+          <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5 }}
+          >
+            <SectionTitle>Contact Me</SectionTitle>
+          </motion.div>
         <Card className="max-w-3xl mx-auto shadow-lg border-border/50">
           <CardContent className="p-6 sm:p-8">
             <Form {...form}>
@@ -155,29 +125,12 @@ export function Contact() {
                 </div>
                 <FormField
                   control={form.control}
-                  name="keywords"
+                  name="subject"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Keywords for AI</FormLabel>
+                      <FormLabel>Subject</FormLabel>
                       <FormControl>
-                        <div className="relative">
-                          <Input placeholder="e.g., Internship opportunity, project collaboration" {...field} />
-                          <Button
-                            type="button"
-                            size="icon"
-                            variant="ghost"
-                            className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 text-primary hover:bg-primary/10 rounded-full"
-                            onClick={handleGenerateMessage}
-                            disabled={isGenerating}
-                            aria-label="Generate message with AI"
-                          >
-                            {isGenerating ? (
-                              <Loader2 className="h-5 w-5 animate-spin" />
-                            ) : (
-                              <Sparkles className="h-5 w-5" />
-                            )}
-                          </Button>
-                        </div>
+                        <Input placeholder="e.g., Internship Opportunity" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -190,7 +143,7 @@ export function Contact() {
                     <FormItem>
                       <FormLabel>Your Message</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="The AI will generate a message here, or you can write your own." rows={7} {...field} />
+                        <Textarea placeholder="Write your message here." rows={7} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
