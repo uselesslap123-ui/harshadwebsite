@@ -4,9 +4,11 @@
 import { SectionWrapper, SectionTitle } from '@/components/shared/section-wrapper';
 import { summary } from '@/lib/data';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 const AnimatedText = ({ text }: { text: string }) => {
   const words = text.split(" ");
+  const roboticsUrl = "https://www.instagram.com/robonauts_team?igsh=MTk0d3hyOXJkbDl2Zw==";
 
   const container = {
     hidden: { opacity: 0 },
@@ -46,15 +48,33 @@ const AnimatedText = ({ text }: { text: string }) => {
       viewport={{ once: true, amount: 0.2 }}
     >
       <p className="text-xl md:text-2xl text-foreground/80 leading-relaxed flex flex-wrap justify-center">
-        {words.map((word, index) => (
-          <motion.span
-            variants={child}
-            key={index}
-            style={{ marginRight: "0.25em" }}
-          >
-            {word}
-          </motion.span>
-        ))}
+        {words.map((word, index) => {
+          if (word.startsWith("Robotics")) {
+            const punctuation = word.substring("Robotics".length);
+            return (
+              <motion.span
+                variants={child}
+                key={index}
+                style={{ marginRight: "0.25em" }}
+                className="inline-block"
+              >
+                <Link href={roboticsUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline transition-colors duration-200">
+                  Robotics
+                </Link>
+                {punctuation}
+              </motion.span>
+            );
+          }
+          return (
+            <motion.span
+              variants={child}
+              key={index}
+              style={{ marginRight: "0.25em" }}
+            >
+              {word}
+            </motion.span>
+          );
+        })}
       </p>
     </motion.div>
   );
