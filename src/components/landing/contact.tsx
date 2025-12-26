@@ -197,10 +197,6 @@ export function Contact() {
                   )}
                 />
                 <div className="flex flex-col sm:flex-row justify-end gap-4">
-                   <Button size="lg" variant="outline" onClick={handleResumeDownload}>
-                        <Download className="mr-2 h-4 w-4" />
-                        Download Resume
-                   </Button>
                   <Button asChild size="lg" variant="outline">
                     <Link href="https://wa.me/9130947966" target="_blank" rel="noopener noreferrer">
                       <WhatsAppIcon className="mr-2 h-4 w-4" />
