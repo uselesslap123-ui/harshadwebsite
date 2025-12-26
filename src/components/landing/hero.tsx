@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { summary, studentName } from '@/lib/data';
-import { ArrowDown } from 'lucide-react';
+import { ArrowDown, FileText } from 'lucide-react';
 
 export function Hero() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero');
@@ -30,12 +30,20 @@ export function Hero() {
         <p className="mt-4 max-w-2xl text-lg md:text-xl text-white italic drop-shadow-md">
           {summary.inspiring_quote}
         </p>
-        <Button asChild size="lg" className="mt-8 bg-accent hover:bg-accent/90 text-accent-foreground group shadow-lg hover:shadow-2xl hover:shadow-accent/30 transition-all duration-300 hover:-translate-y-1">
-          <Link href="#projects">
-            View My Work
-            <ArrowDown className="ml-2 h-5 w-5 transition-transform group-hover:translate-y-1" />
-          </Link>
-        </Button>
+        <div className="mt-8 flex flex-col sm:flex-row gap-4">
+          <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground group shadow-lg hover:shadow-2xl hover:shadow-accent/30 transition-all duration-300 hover:-translate-y-1">
+            <Link href="#projects">
+              View My Work
+              <ArrowDown className="ml-2 h-5 w-5 transition-transform group-hover:translate-y-1" />
+            </Link>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="text-white border-white/50 hover:bg-white/10 hover:text-white group shadow-lg hover:shadow-2xl hover:shadow-white/20 transition-all duration-300 hover:-translate-y-1">
+              <a href="/Harshad_Shewale_Resume.pdf" download>
+                <FileText className="mr-2 h-5 w-5" />
+                Download Resume
+              </a>
+          </Button>
+        </div>
       </div>
     </section>
   );
