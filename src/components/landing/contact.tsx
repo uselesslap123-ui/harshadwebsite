@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -25,7 +25,25 @@ const formSchema = z.object({
 
 export function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [animatedPlaceholder, setAnimatedPlaceholder] = useState('');
   const { toast } = useToast();
+
+  const placeholderText = "Write your message here.";
+
+  useEffect(() => {
+    let index = 0;
+    const interval = setInterval(() => {
+      if (index < placeholderText.length) {
+        setAnimatedPlaceholder((prev) => prev + placeholderText[index]);
+        index++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, []);
+
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -136,7 +154,7 @@ ${message}
                     <FormItem>
                       <FormLabel>Your Message</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Write your message here." rows={7} {...field} />
+                        <Textarea placeholder={animatedPlaceholder} rows={7} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
