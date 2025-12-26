@@ -35,17 +35,20 @@ const prompt = ai.definePrompt({
   name: 'generateContactMessagePrompt',
   input: { schema: GenerateContactMessageInputSchema },
   output: { schema: GenerateContactMessageOutputSchema },
-  prompt: `You are an AI assistant helping a visitor write a professional contact message to {{recipientName}}, the owner of this portfolio.
+  prompt: `You are an AI assistant helping a visitor named {{name}} write a professional contact message to {{recipientName}}, the owner of this portfolio.
 
-The visitor's name is {{name}} and their email is {{email}}.
+The visitor's email is {{email}}.
 
-Based on the following keywords, please draft a concise, polite, and professional message.
+Based on the following keywords provided by the visitor, please draft a concise, polite, and professional message. The tone should be friendly but formal.
 
 Keywords: {{{keywords}}}
 
-The message should be from the perspective of {{name}}. Start with a greeting like "Hello {{recipientName}}," and end with a closing like "Best regards,\n{{name}}".
-
-Do not include a subject line.
+The message should be from the perspective of {{name}}. 
+- Start with a polite greeting, like "Hello {{recipientName}},".
+- Briefly introduce the reason for contact based on the keywords.
+- End with a professional closing, like "Best regards,\n{{name}}".
+- Do not include a subject line.
+- The entire message should be 2-4 sentences long.
 
 Generated Message:`,
 });
