@@ -10,10 +10,16 @@ import { Projects } from '@/components/landing/projects';
 import { Education } from '@/components/landing/education';
 import { Contact } from '@/components/landing/contact';
 import { Footer } from '@/components/landing/footer';
+import { motion } from 'framer-motion';
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-dvh bg-background text-foreground animate-fade-in">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      className="flex flex-col min-h-dvh bg-background text-foreground"
+    >
       <Header />
       <main className="flex-grow">
         <Hero />
@@ -25,6 +31,6 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
-    </div>
+    </motion.div>
   );
 }
