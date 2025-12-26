@@ -184,13 +184,21 @@ export const experiences = [
     },
 ];
 
-export const projects = [
-  { name: "Trustyatra App", description: "A travel companion app focused on safety and reliability.", imageId: "project1" },
-  { name: "UPI QR Generator", description: "A web tool to quickly generate UPI payment QR codes.", imageId: "project2", liveDemoUrl: "https://adityashewale.vercel.app" },
-  { name: "Graphic Design Portfolio", description: "A website showcasing various graphic design projects.", imageId: "project3" },
-  { name: "Flower Selling Website", description: "An e-commerce platform for a local floral business.", imageId: "project4", liveDemoUrl: "https://studioflowers.vercel.app" },
-  { name: "University Event Website", description: "A portal for managing and promoting university events.", imageId: "project5" },
-  { name: "Chatbot App", description: "A conversational AI application for customer support.", imageId: "project6" },
+export type Project = {
+  name: string;
+  description: string;
+  imageId: string;
+  tags?: string[];
+  liveDemoUrl?: string;
+}
+
+export const projects: Project[] = [
+  { name: "Trustyatra App", description: "A travel companion app focused on safety and reliability.", imageId: "project1", tags: ["Flutter", "Dart", "Firebase"] },
+  { name: "UPI QR Generator", description: "A web tool to quickly generate UPI payment QR codes.", imageId: "project2", liveDemoUrl: "https://adityashewale.vercel.app", tags: ["Next.js", "React", "Tailwind CSS"] },
+  { name: "Graphic Design Portfolio", description: "A website showcasing various graphic design projects.", imageId: "project3", tags: ["HTML", "CSS", "JavaScript"] },
+  { name: "Flower Selling Website", description: "An e-commerce platform for a local floral business.", imageId: "project4", liveDemoUrl: "https://studioflowers.vercel.app", tags: ["React", "CSS", "E-commerce"] },
+  { name: "University Event Website", description: "A portal for managing and promoting university events.", imageId: "project5", tags: ["Next.js", "Firebase", "Events"] },
+  { name: "Chatbot App", description: "A conversational AI application for customer support.", imageId: "project6", tags: ["Flutter", "Dialogflow", "AI"] },
 ];
 
 export const education = {

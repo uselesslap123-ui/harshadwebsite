@@ -11,6 +11,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Github, ExternalLink } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast"
 import { motion } from 'framer-motion';
+import { Badge } from '@/components/ui/badge';
 
 export function Projects() {
   const { toast } = useToast()
@@ -43,7 +44,7 @@ export function Projects() {
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ amount: 0.2 }}
+        viewport={{ amount: 0.1 }}
         transition={{ duration: 0.5 }}
       >
         <SectionTitle>Projects</SectionTitle>
@@ -67,8 +68,18 @@ export function Projects() {
                     <CardTitle>{project.name}</CardTitle>
                     <CardDescription>{project.description}</CardDescription>
                 </CardHeader>
-                <CardContent className="flex-grow" />
-                <CardFooter className="flex justify-start gap-2">
+                <CardContent className="flex-grow space-y-4">
+                  {project.tags && project.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.map((tag, tagIndex) => (
+                        <Badge key={tagIndex} variant="secondary">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+                <CardFooter className="flex justify-start gap-2 pt-4">
                     <Button variant="outline" size="sm" onClick={() => handleSourceClick(project.name)}>
                     <Github className="mr-2 h-4 w-4" />
                     Source
