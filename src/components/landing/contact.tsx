@@ -16,6 +16,7 @@ import { useToast } from '@/hooks/use-toast';
 import { generateContactMessage } from '@/ai/flows/generate-contact-message';
 import { Sparkles, Send, Loader2, FileText } from 'lucide-react';
 import { studentName } from '@/lib/data';
+import Link from 'next/link';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -23,6 +24,13 @@ const formSchema = z.object({
   keywords: z.string().min(3, { message: 'Please provide some keywords.' }),
   message: z.string().min(10, { message: 'Message must be at least 10 characters.' }),
 });
+
+const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+    </svg>
+);
+
 
 export function Contact() {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -193,6 +201,12 @@ export function Contact() {
                         <FileText className="mr-2 h-4 w-4" />
                         Download Resume
                    </Button>
+                  <Button asChild size="lg" variant="outline">
+                    <Link href="https://wa.me/9130947966" target="_blank" rel="noopener noreferrer">
+                      <WhatsAppIcon className="mr-2 h-4 w-4" />
+                      WhatsApp
+                    </Link>
+                  </Button>
                   <Button type="submit" size="lg" disabled={isSubmitting}>
                     {isSubmitting ? (
                       <>
