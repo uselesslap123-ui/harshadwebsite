@@ -18,6 +18,7 @@ import { Send, Loader2 } from 'lucide-react';
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
   email: z.string().email({ message: 'Please enter a valid email.' }),
+  subject: z.string().min(5, { message: 'Subject must be at least 5 characters.' }),
   message: z.string().min(10, { message: 'Message must be at least 10 characters.' }),
 });
 
@@ -30,6 +31,7 @@ export function Contact() {
     defaultValues: {
       name: '',
       email: '',
+      subject: '',
       message: '',
     },
   });
@@ -37,7 +39,7 @@ export function Contact() {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
 
-    const { name, email, message } = values;
+    const { name, email, subject, message } = values;
     const phoneNumber = "9130947966";
     
     const formattedMessage = `
@@ -45,6 +47,7 @@ export function Contact() {
 -------------------------
 *Name:* ${name}
 *Email:* ${email}
+*Subject:* ${subject}
 
 *Message:*
 ${message}
@@ -125,6 +128,22 @@ ${message}
                       )}
                     />
                   </motion.div>
+                </motion.div>
+
+                <motion.div variants={itemVariants}>
+                  <FormField
+                    control={form.control}
+                    name="subject"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Subject</FormLabel>
+                        <FormControl>
+                          <Input placeholder="e.g. Internship Opportunity" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </motion.div>
 
                 <motion.div variants={itemVariants}>
