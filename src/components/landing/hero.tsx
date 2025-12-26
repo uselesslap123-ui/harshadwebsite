@@ -1,14 +1,13 @@
 
-import Image from 'next/image';
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { summary, studentName } from '@/lib/data';
 import { ArrowDown } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
 
 export function Hero() {
-  const heroImage = PlaceHolderImages.find(p => p.id === 'hero');
 
   return (
     <section className="relative py-20 md:py-32 lg:py-40 overflow-hidden">
@@ -19,9 +18,13 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
         >
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-headline font-bold leading-tight">
+            <motion.h1 
+                className="text-5xl md:text-6xl lg:text-7xl font-headline font-bold leading-tight cursor-pointer"
+                whileTap={{ scale: 0.95, rotate: -2 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            >
                 Hi, I'm <span className="text-primary">{studentName.split(' ')[0]}</span>
-            </h1>
+            </motion.h1>
             <p className="mt-4 max-w-3xl mx-auto text-xl md:text-2xl text-muted-foreground italic">
                 {summary.inspiring_quote}
             </p>
