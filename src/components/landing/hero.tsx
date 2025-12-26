@@ -13,7 +13,7 @@ export function Hero() {
   return (
     <section className="relative py-20 md:py-32 lg:py-40 overflow-hidden">
         <Image
-            src="https://images.unsplash.com/photo-1594704381926-5a026e79b5c3?q=80&w=2070&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop"
             alt="Semiconductor background"
             fill
             className="object-cover"
