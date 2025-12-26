@@ -71,6 +71,12 @@ export function AiChatAssistant() {
     }
   };
 
+  const iconVariants = {
+    initial: { opacity: 0, rotate: -90, scale: 0.8 },
+    animate: { opacity: 1, rotate: 0, scale: 1 },
+    exit: { opacity: 0, rotate: 90, scale: 0.8 },
+  };
+
   return (
     <>
       <AnimatePresence>
@@ -155,8 +161,24 @@ export function AiChatAssistant() {
         transition={{ delay: 0.5, type: 'spring', stiffness: 260, damping: 20 }}
         className="fixed bottom-4 right-4 z-50"
       >
-        <Button size="lg" className="rounded-full shadow-lg h-16 w-16" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X className="h-7 w-7" /> : <Bot className="h-7 w-7" />}
+        <Button 
+          size="lg" 
+          className="rounded-full shadow-lg h-16 w-16 bg-gradient-to-br from-primary to-accent text-primary-foreground hover:from-primary/90 hover:to-accent/90 transition-all duration-300 transform hover:scale-110" 
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={isOpen ? 'close' : 'open'}
+              variants={iconVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={{ duration: 0.2 }}
+              className="absolute"
+            >
+              {isOpen ? <X className="h-7 w-7" /> : <Bot className="h-7 w-7" />}
+            </motion.div>
+          </AnimatePresence>
           <span className="sr-only">Toggle Chat</span>
         </Button>
       </motion.div>
