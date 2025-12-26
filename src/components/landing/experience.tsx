@@ -42,8 +42,8 @@ export function Experience() {
                         {/* Card Content */}
                         <Card 
                             className={cn(
-                                "w-full ml-14 md:ml-0 md:w-[calc(50%-2rem)] shadow-lg",
-                                exp.certificateUrl && "cursor-pointer hover:shadow-primary/20 hover:border-primary/50 transition-all duration-300",
+                                "w-full ml-14 md:ml-0 md:w-[calc(50%-2rem)] shadow-lg transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-1.5",
+                                exp.certificateUrl && "cursor-pointer",
                                 index % 2 === 0 ? 'md:mr-auto' : 'md:ml-auto md:text-right'
                             )}
                             onClick={() => handleCardClick(exp.certificateUrl)}

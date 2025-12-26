@@ -51,7 +51,7 @@ export function Projects() {
             {projects.map((project, index) => {
             const projectImage = PlaceHolderImages.find(p => p.id === project.imageId);
             return (
-                <Card key={index} className="flex flex-col overflow-hidden group hover:shadow-xl transition-shadow duration-300">
+                <Card key={index} className="flex flex-col overflow-hidden group hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300">
                 {projectImage && (
                     <div className="relative h-48 w-full overflow-hidden">
                         <Image
