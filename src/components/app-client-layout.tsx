@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Toaster } from "@/components/ui/toaster";
@@ -6,6 +5,7 @@ import { AppThemeProvider } from '@/components/theme-provider';
 import { useEffect, useState } from 'react';
 import { SplashScreen } from '@/components/splash-screen';
 import { AiChatAssistant } from '@/components/ai-chat-assistant';
+import { ScrollEndNotifier } from '@/components/scroll-end-notifier';
 
 export function AppClientLayout({
     children,
@@ -37,6 +37,7 @@ export function AppClientLayout({
                     {children}
                     <Toaster />
                     <AiChatAssistant />
+                    <ScrollEndNotifier />
                 </AppThemeProvider>
             )}
         </>
