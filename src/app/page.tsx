@@ -3,6 +3,7 @@
 
 import { Header } from '@/components/landing/header';
 import { Hero } from '@/components/landing/hero';
+import { Summary } from '@/components/landing/summary';
 import { Skills } from '@/components/landing/skills';
 import { Experience } from '@/components/landing/experience';
 import { Projects } from '@/components/landing/projects';
@@ -22,6 +23,7 @@ export default function Home() {
       <Header />
       <main className="flex-grow">
         <Hero />
+        <Summary />
         <Skills />
         <Experience />
         <Projects />
