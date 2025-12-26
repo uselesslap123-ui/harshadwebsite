@@ -8,25 +8,21 @@ import { z } from 'zod';
 import { motion } from 'framer-motion';
 import { SectionWrapper, SectionTitle } from '@/components/shared/section-wrapper';
 import { Card, CardContent } from '@/components/ui/card';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Send, Loader2, Sparkles } from 'lucide-react';
-import { generateContactMessage } from '@/ai/flows/generate-contact-message';
-import { studentName } from '@/lib/data';
+import { Send, Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
   email: z.string().email({ message: 'Please enter a valid email.' }),
-  keywords: z.string().min(3, { message: 'Please provide some keywords for the AI.' }),
   message: z.string().min(10, { message: 'Message must be at least 10 characters.' }),
 });
 
 export function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isGenerating, setIsGenerating] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -34,42 +30,9 @@ export function Contact() {
     defaultValues: {
       name: '',
       email: '',
-      keywords: '',
       message: '',
     },
   });
-
-  const handleGenerateMessage = async () => {
-    const { name, email, keywords } = form.getValues();
-    if (!name || !email || !keywords) {
-      toast({
-        variant: "destructive",
-        title: "Missing Information",
-        description: "Please fill in your name, email, and some keywords before generating a message.",
-      });
-      return;
-    }
-
-    setIsGenerating(true);
-    try {
-      const result = await generateContactMessage({
-        name,
-        email,
-        keywords,
-        recipientName: studentName.split(' ')[0],
-      });
-      form.setValue('message', result.message, { shouldValidate: true });
-    } catch (error) {
-      console.error(error);
-      toast({
-        variant: "destructive",
-        title: "AI Generation Failed",
-        description: "Could not generate a message. Please try again.",
-      });
-    } finally {
-      setIsGenerating(false);
-    }
-  };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
@@ -167,47 +130,12 @@ ${message}
                 <motion.div variants={itemVariants}>
                   <FormField
                     control={form.control}
-                    name="keywords"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Keywords for AI</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g., Internship, Collaboration, Question" {...field} />
-                        </FormControl>
-                         <FormDescription>
-                           Enter a few words and let AI draft a message for you.
-                         </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </motion.div>
-
-                <motion.div variants={itemVariants} className="flex justify-end">
-                   <Button type="button" variant="outline" size="sm" onClick={handleGenerateMessage} disabled={isGenerating}>
-                      {isGenerating ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Generating...
-                        </>
-                      ) : (
-                        <>
-                          <Sparkles className="mr-2 h-4 w-4 text-primary" />
-                          Generate Message
-                        </>
-                      )}
-                    </Button>
-                </motion.div>
-
-                <motion.div variants={itemVariants}>
-                  <FormField
-                    control={form.control}
                     name="message"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Your Message</FormLabel>
                         <FormControl>
-                          <Textarea placeholder="Your generated or manually typed message will appear here." rows={7} {...field} />
+                          <Textarea placeholder="Write your message here..." rows={7} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
