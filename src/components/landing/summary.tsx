@@ -6,13 +6,13 @@ import { summary } from '@/lib/data';
 import { motion } from 'framer-motion';
 
 const AnimatedText = ({ text }: { text: string }) => {
-  const words = text.split(" ");
+  const characters = Array.from(text);
 
   const container = {
     hidden: { opacity: 0 },
     visible: (i = 1) => ({
       opacity: 1,
-      transition: { staggerChildren: 0.04, delayChildren: 0.04 * i },
+      transition: { staggerChildren: 0.02, delayChildren: 0.02 * i },
     }),
   };
 
@@ -46,13 +46,13 @@ const AnimatedText = ({ text }: { text: string }) => {
       viewport={{ once: true, amount: 0.2 }}
     >
       <p className="text-xl md:text-2xl text-foreground/80 leading-relaxed">
-        {words.map((word, index) => (
+        {characters.map((char, index) => (
           <motion.span
             variants={child}
-            style={{ marginRight: "5px", display: 'inline-block' }}
             key={index}
+            style={{ display: 'inline-block' }}
           >
-            {word}
+            {char === " " ? "\u00A0" : char}
           </motion.span>
         ))}
       </p>
