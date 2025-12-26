@@ -9,7 +9,7 @@ export function Hero() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero');
 
   return (
-    <section className="relative h-[90dvh] min-h-[600px] flex items-center justify-center text-center text-white">
+    <section className="relative h-[90dvh] min-h-[600px] flex items-center justify-center text-center text-white overflow-hidden">
       {heroImage && (
         <Image
           src={heroImage.imageUrl}
@@ -21,7 +21,7 @@ export function Hero() {
         />
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent" />
-      <div className="absolute inset-0 bg-primary/30" />
+      <div className="absolute inset-0 bg-primary/30 animated-bg" />
 
       <div className="relative z-10 p-4 flex flex-col items-center">
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold leading-tight drop-shadow-lg transition-all duration-300 hover:scale-105 hover:text-white active:scale-95 cursor-pointer">
