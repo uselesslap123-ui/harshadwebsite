@@ -3,7 +3,11 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export function ScrollEndNotifier() {
+interface ScrollEndNotifierProps {
+  onOpenChat: () => void;
+}
+
+export function ScrollEndNotifier({ onOpenChat }: ScrollEndNotifierProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -25,6 +29,8 @@ export function ScrollEndNotifier() {
           exit={{ opacity: 0, y: 50, scale: 0.9 }}
           transition={{ duration: 0.4, ease: 'easeOut' }}
           className="fixed bottom-24 right-20 z-40"
+          onClick={onOpenChat}
+          style={{ cursor: 'pointer' }}
         >
           <div className="bg-primary text-primary-foreground text-sm font-semibold py-2 px-4 rounded-lg shadow-lg">
             Quick chat with Harshad!

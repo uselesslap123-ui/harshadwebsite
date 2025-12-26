@@ -13,6 +13,7 @@ export function AppClientLayout({
     children: React.ReactNode;
 }>) {
     const [isLoading, setIsLoading] = useState(true);
+    const [isChatOpen, setIsChatOpen] = useState(false);
 
     useEffect(() => {
         // Simulate a loading time for the splash screen
@@ -36,8 +37,8 @@ export function AppClientLayout({
                 >
                     {children}
                     <Toaster />
-                    <AiChatAssistant />
-                    <ScrollEndNotifier />
+                    <AiChatAssistant isOpen={isChatOpen} setIsOpen={setIsChatOpen} />
+                    <ScrollEndNotifier onOpenChat={() => setIsChatOpen(true)} />
                 </AppThemeProvider>
             )}
         </>

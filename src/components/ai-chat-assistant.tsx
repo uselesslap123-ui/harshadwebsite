@@ -1,17 +1,20 @@
 
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bot, Send, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { studentName } from '@/lib/data';
 
-export function AiChatAssistant() {
-  const [isOpen, setIsOpen] = useState(false);
+interface AiChatAssistantProps {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+}
+
+export function AiChatAssistant({ isOpen, setIsOpen }: AiChatAssistantProps) {
   const [input, setInput] = useState('');
   const { toast } = useToast();
 
