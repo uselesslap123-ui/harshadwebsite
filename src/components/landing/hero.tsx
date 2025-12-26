@@ -20,7 +20,7 @@ export function Hero() {
             priority
             data-ai-hint="semiconductor circuit"
         />
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/70" />
       <div className="container mx-auto px-4 grid grid-cols-1 items-center relative z-10">
         <motion.div 
             className="text-center"
