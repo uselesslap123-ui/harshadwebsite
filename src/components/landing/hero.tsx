@@ -11,7 +11,7 @@ import { motion } from 'framer-motion';
 export function Hero() {
 
   return (
-    <section className="relative py-20 md:py-32 lg:py-40 overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <Image
             src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop"
             alt="Semiconductor background"

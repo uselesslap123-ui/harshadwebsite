@@ -21,14 +21,16 @@ export default function Home() {
       className="flex flex-col min-h-dvh bg-background text-foreground"
     >
       <Header />
-      <main className="flex-grow">
+      <main className="flex-grow relative">
         <Hero />
-        <Summary />
-        <Skills />
-        <Experience />
-        <Projects />
-        <Education />
-        <Contact />
+        <div className="relative z-10 bg-background">
+          <Summary />
+          <Skills />
+          <Experience />
+          <Projects />
+          <Education />
+          <Contact />
+        </div>
       </main>
       <Footer />
     </motion.div>
