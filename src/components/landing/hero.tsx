@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { summary, studentName } from '@/lib/data';
-import { ArrowDown } from 'lucide-react';
+import { ArrowDown, Hand } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export function Hero() {
@@ -28,6 +28,19 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
         >
+            <motion.div 
+              className="flex items-center justify-center gap-2 mb-4"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+            >
+              <motion.div
+                animate={{ rotate: [0, 20, 0, 20, 0], transition: { duration: 1.5, repeat: Infinity, repeatType: "loop", ease: "easeInOut" } }}
+              >
+                <Hand className="h-7 w-7 text-amber-400" />
+              </motion.div>
+              <p className="text-xl font-medium text-slate-200">Hello</p>
+            </motion.div>
             <motion.h1 
                 className="text-5xl md:text-6xl lg:text-7xl font-headline font-bold leading-tight cursor-pointer text-white drop-shadow-lg"
                 whileTap={{ scale: 0.95, rotate: -2 }}
