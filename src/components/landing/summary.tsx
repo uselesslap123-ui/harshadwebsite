@@ -45,7 +45,7 @@ const AnimatedText = ({ text }: { text: string }) => {
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
     >
-      <p className="text-xl md:text-2xl text-foreground/80 leading-relaxed">
+      <p className="text-xl md:text-2xl text-foreground/80 leading-relaxed flex flex-wrap justify-center">
         {words.map((word, index) => (
           <motion.span
             variants={child}
