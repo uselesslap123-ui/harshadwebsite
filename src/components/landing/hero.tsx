@@ -23,14 +23,14 @@ export function Hero() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero');
 
   return (
-    <section className="relative bg-background/50 py-20 md:py-32 lg:py-40 overflow-hidden">
+    <section className="relative py-20 md:py-32 lg:py-40 overflow-hidden">
         <Image
             src="https://img.freepik.com/free-vector/digital-technology-background-with-glowing-elements_1017-49330.jpg?w=1060"
-            alt="Futuristic background"
+            alt="Futuristic technology background with hexagonal network"
             layout="fill"
             objectFit="cover"
             quality={100}
-            className="absolute inset-0 z-0 opacity-20"
+            className="absolute inset-0 z-0"
         />
       <div className="container mx-auto px-4 grid md:grid-cols-2 gap-16 items-center relative z-10">
         <motion.div 
