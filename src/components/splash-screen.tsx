@@ -20,31 +20,24 @@ const FlutterLogo = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const LogoRainDrop = ({ id }: { id: number }) => {
-  const [styles, setStyles] = useState({});
+  const [initialStyles, setInitialStyles] = useState<React.CSSProperties>({ opacity: 0 });
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    const duration = Math.random() * 5 + 5; // 5 to 10 seconds
-    const delay = Math.random() * 5; // 0 to 5 seconds delay
-    const initialX = Math.random() * 100;
-    const finalX = initialX + (Math.random() - 0.5) * 50; // drift left or right
-    const initialRotation = Math.random() * 360;
-    const finalRotation = initialRotation + (Math.random() - 0.5) * 360;
-    const scale = Math.random() * 0.5 + 0.5; // 0.5 to 1.0 scale
-
-    setStyles({
-      position: 'absolute',
-      top: '-20%',
-      left: `${initialX}vw`,
-      transform: `scale(${scale}) rotate(${initialRotation}deg)`,
-      opacity: Math.random() * 0.5 + 0.3, // 0.3 to 0.8 opacity
+    setIsMounted(true);
+    setInitialStyles({
+      y: '-20vh', 
+      x: `${Math.random() * 100}vw`,
+      scale: Math.random() * 0.5 + 0.5,
+      rotate: Math.random() * 360,
+      opacity: Math.random() * 0.5 + 0.5,
     });
-
-    return () => {}; // No cleanup needed
-  }, [id]);
-
+  }, []);
 
   const variants = {
-    initial: {},
+    initial: {
+      opacity: 0
+    },
     animate: {
       y: '120vh',
       x: `${(Math.random() - 0.5) * 40}vw`,
@@ -60,16 +53,14 @@ const LogoRainDrop = ({ id }: { id: number }) => {
     },
   };
 
+  if (!isMounted) {
+    return null;
+  }
+
   return (
     <motion.div
       className="w-12 h-12"
-      initial={{ 
-        y: '-20vh', 
-        x: `${Math.random() * 100}vw`,
-        scale: Math.random() * 0.5 + 0.5,
-        rotate: Math.random() * 360,
-        opacity: Math.random() * 0.5 + 0.5,
-      }}
+      initial={initialStyles}
       animate={variants.animate}
     >
       <FlutterLogo />
