@@ -35,7 +35,8 @@ export function Hero() {
               transition={{ delay: 0.2, duration: 0.5 }}
             >
               <motion.div
-                animate={{ rotate: [0, 20, 0, 20, 0], transition: { duration: 1.5, repeat: Infinity, repeatType: "loop", ease: "easeInOut" } }}
+                animate={{ rotate: [0, 20, 0, 20, 0] }}
+                transition={{ duration: 1.5, repeat: 2, ease: "easeInOut" }}
               >
                 <Hand className="h-7 w-7 text-amber-400" />
               </motion.div>
@@ -71,3 +72,4 @@ export function Hero() {
     </section>
   );
 }
+
