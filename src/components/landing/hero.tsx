@@ -19,10 +19,10 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
         >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold leading-tight">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-headline font-bold leading-tight">
                 Hi, I'm <span className="text-primary">{studentName.split(' ')[0]}</span>
             </h1>
-            <p className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground italic">
+            <p className="mt-4 max-w-3xl mx-auto text-xl md:text-2xl text-muted-foreground italic">
                 {summary.inspiring_quote}
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
