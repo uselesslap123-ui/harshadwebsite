@@ -16,7 +16,7 @@ export const studentName = "Harshad Shewale";
 
 export const summary = {
   title: "Aspiring Electronics Engineer & Developer",
-  description: "A second-year Electronics and Telecommunication student passionate about gaining practical industry exposure. Eager to leverage hands-on internship experience to grow my skills in both electronics and software development, with a keen interest in Web and Flutter development.",
+  description: "A second-year Electronics and Telecommunication student and an active member of the BVCOE Robotics Club, I am passionate about gaining practical industry exposure. I'm eager to leverage hands-on internship experience to grow my skills in both electronics and software development, with a keen interest in Web and Flutter development.",
   inspiring_quote: "Bridging the world of hardware and software, one line of code at a time."
 };
 
