@@ -23,7 +23,7 @@ export function Hero() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero');
 
   return (
-    <section className="relative bg-background py-20 md:py-32 lg:py-40">
+    <section className="relative animated-bg py-20 md:py-32 lg:py-40">
       <div className="container mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
         <motion.div 
             className="text-center md:text-left"
