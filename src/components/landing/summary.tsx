@@ -1,3 +1,4 @@
+
 'use client';
 
 import { SectionWrapper, SectionTitle } from '@/components/shared/section-wrapper';
@@ -43,10 +44,9 @@ const AnimatedText = ({ text }: { text: string }) => {
       animate={isInView ? 'visible' : 'hidden'}
     >
       {words.map((word, index) => {
-        const isRoboticsClub = word.includes("Robotics");
-        const nextWordIsClub = words[index + 1] === "Club,";
+        const isRoboticsClub = word.includes("Robotics") && words[index + 1] === "Club,";
         
-        if (isRoboticsClub && nextWordIsClub) {
+        if (isRoboticsClub) {
           return (
             <motion.span key={index} variants={wordVariants} className="inline-block">
               <Link
@@ -62,9 +62,8 @@ const AnimatedText = ({ text }: { text: string }) => {
           );
         }
         
-        if (word === "Club,") {
-          const prevWordIsRobotics = words[index - 1] === "Robotics";
-          if (prevWordIsRobotics) return null; // Already handled
+        if (word === "Club," && words[index - 1].includes("Robotics")) {
+          return null; // This word is already handled by the link logic above
         }
 
         return (
