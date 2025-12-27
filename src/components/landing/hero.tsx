@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -21,7 +22,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden text-center">
         <Image
             src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop"
             alt="Semiconductor background"
@@ -31,9 +32,8 @@ export function Hero() {
             data-ai-hint="semiconductor circuit"
         />
         <div className="absolute inset-0 bg-black/70" />
-      <div className="container mx-auto px-4 grid grid-cols-1 items-center relative z-10">
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div 
-            className="text-center"
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
