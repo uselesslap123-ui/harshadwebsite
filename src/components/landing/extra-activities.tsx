@@ -24,7 +24,7 @@ export function ExtraActivities() {
             </CardHeader>
             <CardContent className="px-6 pb-6">
               <p className="text-foreground/80 leading-relaxed">
-                Completed an intensive bootcamp focused on building end-to-end applications using modern web technologies and artificial intelligence tools, covering frontend and backend integration, API development, and the practical use of AI services in real-world applications.
+                Completed an intensive bootcamp focused on building end-to-end applications using modern web technologies and artificial intelligence tools, covering frontend and backend integration, API development, and the practical use of AI services in real-world applications, conducted by Aditya Majethia Sir and Kumar Majethia Sir.
               </p>
             </CardContent>
           </Card>
