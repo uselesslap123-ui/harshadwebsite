@@ -11,7 +11,7 @@ const AnimatedText = ({ text }: { text: string }) => {
   const roboticsUrl = "https://www.instagram.com/robonauts_team?igsh=MTk0d3hyOXJkbDl2Zw==";
   const words = text.split(' ');
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.5 });
+  const isInView = useInView(ref, { amount: 0.5 });
 
   const containerVariants = {
     hidden: {},
@@ -95,4 +95,3 @@ export function Summary() {
     </SectionWrapper>
   );
 }
-
