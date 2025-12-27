@@ -35,7 +35,7 @@ export function Education() {
                   <GraduationCap className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
                   <h3 className="text-xl font-headline font-semibold">{education.degree}</h3>
                 </div>
-                <div className="pl-9 space-y-2">
+                <div className="pl-0 sm:pl-9 space-y-2">
                   <Link href="https://bvcoenm.edu.in/" target="_blank" rel="noopener noreferrer" className="text-lg font-medium text-muted-foreground hover:text-primary transition-colors">
                     {education.university}
                   </Link>

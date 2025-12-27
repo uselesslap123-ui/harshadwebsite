@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { socialLinks, studentName, navLinks, summary } from '@/lib/data';
@@ -25,9 +26,9 @@ export function Footer() {
           </div>
           
           {/* Right Column: Quick Links */}
-          <div className="flex flex-col items-center md:items-end">
+          <div className="flex flex-col items-center md:items-end text-center md:text-right">
             <h3 className="font-headline font-semibold text-lg mb-4 text-primary">Quick Links</h3>
-            <ul className="space-y-2 text-center md:text-right">
+            <ul className="space-y-2">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors">
@@ -41,7 +42,7 @@ export function Footer() {
 
         {/* Bottom Section: Copyright & Socials */}
         <div className="border-t pt-8 mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-muted-foreground order-2 sm:order-1">
+          <p className="text-sm text-muted-foreground order-2 sm:order-1 text-center sm:text-left">
             &copy; {new Date().getFullYear()} {studentName}. All rights reserved.
           </p>
           <div className="flex items-center gap-2 order-1 sm:order-2">

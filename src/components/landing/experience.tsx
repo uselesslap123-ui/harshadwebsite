@@ -21,7 +21,7 @@ export function Experience() {
         <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ amount: 0.2 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.5 }}
         >
             <SectionTitle>Experience & Training</SectionTitle>
@@ -44,7 +44,7 @@ export function Experience() {
                             className={cn(
                                 "w-full ml-14 md:ml-0 md:w-[calc(50%-2rem)] shadow-lg transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-1.5",
                                 exp.certificateUrl && "cursor-pointer",
-                                index % 2 === 0 ? 'md:mr-auto' : 'md:ml-auto md:text-right'
+                                index % 2 === 0 ? 'md:mr-auto' : 'md:ml-auto'
                             )}
                             onClick={() => handleCardClick(exp.certificateUrl)}
                             role={exp.certificateUrl ? 'link' : 'listitem'}
@@ -56,7 +56,7 @@ export function Experience() {
                                 }
                             }}
                             >
-                            <CardHeader className={index % 2 !== 0 ? 'md:items-end' : ''}>
+                            <CardHeader className={cn(index % 2 !== 0 ? 'md:text-right md:items-end' : '')}>
                                 <p className="text-sm text-muted-foreground">{exp.year} - {exp.company}</p>
                                 <CardTitle className="text-lg">{exp.title}</CardTitle>
                                 <CardDescription>{exp.description}</CardDescription>
