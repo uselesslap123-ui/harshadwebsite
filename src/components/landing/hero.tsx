@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -6,8 +5,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { summary, studentName } from '@/lib/data';
-import { ArrowDown, Bot } from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { WallEIcon } from '@/components/shared/icons';
 
 export function Hero() {
   const [isGreetingVisible, setIsGreetingVisible] = useState(true);
@@ -51,7 +51,7 @@ export function Hero() {
                   animate={{ rotate: [0, 20, -15, 10, 0] }}
                   transition={{ duration: 1.5, repeat: 2, ease: "easeInOut" }}
                 >
-                  <Bot className="h-7 w-7 text-primary" />
+                  <WallEIcon className="h-8 w-8 text-primary" />
                 </motion.div>
                 <p className="text-xl font-medium text-slate-200">HELLO !!</p>
               </motion.div>
