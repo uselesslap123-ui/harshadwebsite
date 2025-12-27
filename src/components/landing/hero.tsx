@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -6,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { summary, studentName } from '@/lib/data';
-import { ArrowDown, Hand } from 'lucide-react';
+import { ArrowDown, Bot } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function Hero() {
@@ -48,12 +47,12 @@ export function Hero() {
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
                 <motion.div
-                  animate={{ rotate: [0, 20, 0, 20, 0] }}
+                  animate={{ rotate: [0, 15, -10, 5, 0] }}
                   transition={{ duration: 1.5, repeat: 2, ease: "easeInOut" }}
                 >
-                  <Hand className="h-7 w-7 text-amber-400" />
+                  <Bot className="h-7 w-7 text-amber-400" />
                 </motion.div>
-                <p className="text-xl font-medium text-slate-200">Hello</p>
+                <p className="text-xl font-medium text-slate-200">hii</p>
               </motion.div>
             )}
           </AnimatePresence>
