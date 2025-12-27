@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { summary, studentName } from '@/lib/data';
-import { ArrowDown, Bot } from 'lucide-react';
+import { ArrowDown, Hand } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function Hero() {
@@ -46,13 +46,13 @@ export function Hero() {
                 exit={{ opacity: 0, y: -20, transition: { duration: 0.5 } }}
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
+                <p className="text-xl font-medium text-slate-200">Hello</p>
                 <motion.div
-                  animate={{ rotate: [0, 15, -10, 5, 0] }}
+                  animate={{ rotate: [0, 20, -15, 10, 0] }}
                   transition={{ duration: 1.5, repeat: 2, ease: "easeInOut" }}
                 >
-                  <Bot className="h-7 w-7 text-amber-400" />
+                  <Hand className="h-6 w-6 text-amber-400" />
                 </motion.div>
-                <p className="text-xl font-medium text-slate-200">hii</p>
               </motion.div>
             )}
           </AnimatePresence>
