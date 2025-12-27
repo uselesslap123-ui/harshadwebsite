@@ -1,4 +1,3 @@
-
 'use client';
 
 import { SectionWrapper, SectionTitle } from '@/components/shared/section-wrapper';
