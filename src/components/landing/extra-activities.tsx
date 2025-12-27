@@ -34,7 +34,15 @@ export function ExtraActivities() {
                 >
                   Aditya Majethia Sir
                 </Link>{' '}
-                and Kumar Majethia Sir.
+                and{' '}
+                <Link
+                  href="https://www.linkedin.com/in/kumarmajethia?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary font-semibold hover:underline"
+                >
+                  Kumar Majethia Sir
+                </Link>.
               </p>
             </CardContent>
           </Card>
