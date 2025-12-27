@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -37,6 +36,7 @@ export function Hero() {
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
+            className="flex flex-col items-center justify-center"
         >
           <AnimatePresence>
             {isGreetingVisible && (
@@ -64,9 +64,10 @@ export function Hero() {
             >
                 Hi, I'm{' '}
                 <motion.span 
-                    className="text-primary"
-                    whileHover={{ scale: 1.1, filter: "brightness(1.2)" }}
-                    transition={{ type: "spring", stiffness: 300 }}
+                    className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent"
+                    style={{ backgroundSize: '200% 200%' }}
+                    animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
+                    transition={{ duration: 3, ease: "linear", repeat: Infinity }}
                 >
                     {studentName.split(' ')[0]}
                 </motion.span>
