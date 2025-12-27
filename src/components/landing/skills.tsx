@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -11,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 function SkillDetailsDialog({ skill, open, onOpenChange }: { skill: Skill | null, open: boolean, onOpenChange: (open: boolean) => void }) {
   if (!skill || !skill.details) return null;
@@ -42,11 +43,11 @@ function SkillDetailsDialog({ skill, open, onOpenChange }: { skill: Skill | null
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <div className="flex items-center gap-4 mb-4">
-             <skill.icon className="h-10 w-10 text-primary" />
+             <skill.icon className="h-10 w-10 text-primary flex-shrink-0" />
             <DialogTitle className="text-2xl font-headline">{skill.name}</DialogTitle>
           </div>
         </DialogHeader>
-        <div className="prose prose-sm max-w-none text-muted-foreground">
+        <div className="prose prose-sm max-w-none text-muted-foreground dark:prose-invert prose-headings:text-primary prose-strong:text-foreground">
           {formatDetails(skill.details)}
         </div>
       </DialogContent>
