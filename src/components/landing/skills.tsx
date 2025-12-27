@@ -20,6 +20,7 @@ function SkillDetailsDialog({ skill, open, onOpenChange }: { skill: Skill | null
   // Simple markdown to HTML
   const formatDetails = (details: string) => {
     return details
+      .replace(/`([^`]+)`/g, '<code class="bg-muted text-foreground/80 font-code px-1 py-0.5 rounded-sm">$1</code>')
       .split('\n')
       .map((line, index) => {
         line = line.trim();
@@ -31,7 +32,8 @@ function SkillDetailsDialog({ skill, open, onOpenChange }: { skill: Skill | null
           return <li key={index} className="list-disc list-inside ml-4" dangerouslySetInnerHTML={{ __html: formattedLine }} />;
         }
         if (line) {
-          return <p key={index} className="my-2">{line}</p>;
+          const formattedLine = line.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-foreground/90">$1</strong>');
+          return <p key={index} className="my-2" dangerouslySetInnerHTML={{ __html: formattedLine }} />;
         }
         return null;
       })
@@ -40,14 +42,14 @@ function SkillDetailsDialog({ skill, open, onOpenChange }: { skill: Skill | null
   
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-md max-h-[90vh] flex flex-col">
         <DialogHeader>
-          <div className="flex items-center gap-4 mb-4">
+          <div className="flex items-center gap-4">
              <skill.icon className="h-10 w-10 text-primary flex-shrink-0" />
             <DialogTitle className="text-2xl font-headline">{skill.name}</DialogTitle>
           </div>
         </DialogHeader>
-        <div className="prose prose-sm max-w-none text-muted-foreground dark:prose-invert prose-headings:text-primary prose-strong:text-foreground">
+        <div className="prose prose-sm max-w-none text-muted-foreground dark:prose-invert prose-headings:text-primary prose-strong:text-foreground overflow-y-auto pr-4">
           {formatDetails(skill.details)}
         </div>
       </DialogContent>
