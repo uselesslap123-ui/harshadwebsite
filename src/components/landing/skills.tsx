@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -22,16 +21,20 @@ function SkillDetailsDialog({ skill, open, onOpenChange }: { skill: Skill | null
     return details
       .split('\n')
       .map((line, index) => {
+        line = line.trim();
         if (line.startsWith('### ')) {
           return <h3 key={index} className="text-lg font-bold mt-4 mb-2 text-primary">{line.substring(4)}</h3>;
         }
         if (line.startsWith('* ')) {
           const formattedLine = line.substring(2).replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-foreground/90">$1</strong>');
-          return <li key={index} className="list-disc list-inside" dangerouslySetInnerHTML={{ __html: formattedLine }} />;
+          return <li key={index} className="list-disc list-inside ml-4" dangerouslySetInnerHTML={{ __html: formattedLine }} />;
         }
-        return <p key={index}>{line}</p>;
+        if (line) {
+          return <p key={index} className="my-2">{line}</p>;
+        }
+        return null;
       })
-      .filter(line => (line as React.ReactElement).props.children); // filter out empty paragraphs
+      .filter(line => line !== null); 
   };
   
   return (
