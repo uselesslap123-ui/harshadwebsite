@@ -6,6 +6,7 @@ import { Hero } from '@/components/landing/hero';
 import { Summary } from '@/components/landing/summary';
 import { Skills } from '@/components/landing/skills';
 import { Experience } from '@/components/landing/experience';
+import { ExtraActivities } from '@/components/landing/extra-activities';
 import { Projects } from '@/components/landing/projects';
 import { Education } from '@/components/landing/education';
 import { Contact } from '@/components/landing/contact';
@@ -27,6 +28,7 @@ export default function Home() {
           <Summary />
           <Skills />
           <Experience />
+          <ExtraActivities />
           <Projects />
           <Education />
           <Contact />
