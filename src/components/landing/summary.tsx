@@ -1,4 +1,3 @@
-
 'use client';
 
 import { SectionWrapper, SectionTitle } from '@/components/shared/section-wrapper';
@@ -9,81 +8,46 @@ import { useRef } from 'react';
 
 const AnimatedText = ({ text }: { text: string }) => {
   const roboticsUrl = "https://www.instagram.com/robonauts_team?igsh=MTk0d3hyOXJkbDl2Zw==";
-  const words = text.split(' ');
-  const ref = useRef(null);
-  const isInView = useInView(ref, { amount: 0.5 });
-
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.05,
-      },
-    },
-  };
-
-  const wordVariants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: 'spring',
-        stiffness: 100,
-        damping: 10,
-      },
-    },
+  
+  // Custom renderer for the text to handle the link
+  const renderText = () => {
+    const parts = text.split(/(Robotics Club)/);
+    return parts.map((part, index) => {
+      if (part === "Robotics Club") {
+        return (
+          <Link
+            key={index}
+            href={roboticsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline transition-colors duration-200 font-semibold"
+          >
+            Robotics Club
+          </Link>
+        );
+      }
+      return part;
+    });
   };
 
   return (
-    <motion.p
-      ref={ref}
-      className="text-xl md:text-2xl text-foreground/80 leading-relaxed"
-      variants={containerVariants}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
-    >
-      {words.map((word, index) => {
-        const isRoboticsClub = word.includes("Robotics") && words[index + 1] === "Club,";
-        
-        if (isRoboticsClub) {
-          return (
-            <motion.span key={index} variants={wordVariants} className="inline-block">
-              <Link
-                href={roboticsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline transition-colors duration-200 font-semibold"
-              >
-                Robotics Club
-              </Link>
-              {', '}
-            </motion.span>
-          );
-        }
-        
-        if (word === "Club," && words[index - 1].includes("Robotics")) {
-          return null; // This word is already handled by the link logic above
-        }
-
-        return (
-          <motion.span key={index} variants={wordVariants} className="inline-block">
-            {word}{' '}
-          </motion.span>
-        );
-      })}
-    </motion.p>
+    <p className="text-xl md:text-2xl text-foreground/80 leading-relaxed">
+      {renderText()}
+    </p>
   );
 };
 
 
 export function Summary() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { amount: 0.2, once: false });
+
   return (
     <SectionWrapper id="summary" className="bg-background">
         <motion.div
+            ref={ref}
             initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
             className="max-w-4xl mx-auto text-center"
         >
