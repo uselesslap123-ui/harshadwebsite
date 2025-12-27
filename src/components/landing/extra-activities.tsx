@@ -1,6 +1,7 @@
 
 'use client';
 
+import Link from 'next/link';
 import { SectionWrapper, SectionTitle } from '@/components/shared/section-wrapper';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { motion } from 'framer-motion';
@@ -24,7 +25,16 @@ export function ExtraActivities() {
             </CardHeader>
             <CardContent className="px-6 pb-6">
               <p className="text-foreground/80 leading-relaxed">
-                Completed an intensive bootcamp focused on building end-to-end applications using modern web technologies and artificial intelligence tools, covering frontend and backend integration, API development, and the practical use of AI services in real-world applications, conducted by Aditya Majethia Sir and Kumar Majethia Sir.
+                Completed an intensive bootcamp focused on building end-to-end applications using modern web technologies and artificial intelligence tools, covering frontend and backend integration, API development, and the practical use of AI services in real-world applications, conducted by{' '}
+                <Link
+                  href="https://www.linkedin.com/in/adityamajethia?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary font-semibold hover:underline"
+                >
+                  Aditya Majethia Sir
+                </Link>{' '}
+                and Kumar Majethia Sir.
               </p>
             </CardContent>
           </Card>
