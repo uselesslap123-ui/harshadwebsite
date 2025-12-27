@@ -1,5 +1,7 @@
+
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
+import { motion } from 'framer-motion';
 
 interface SectionWrapperProps {
     id: string;
@@ -18,9 +20,21 @@ export function SectionWrapper({ id, children, className }: SectionWrapperProps)
 }
 
 const SectionTitle = ({ children, className }: { children: ReactNode, className?: string }) => (
-    <h2 className={cn("text-3xl font-headline md:text-4xl font-bold text-center mb-12 text-primary", className)}>
-        {children}
-    </h2>
+    <motion.h2 
+        initial={{ opacity: 0.8 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className={cn("text-3xl font-headline md:text-4xl font-bold text-center mb-12", className)}
+    >
+        <motion.span
+            className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent"
+            style={{ backgroundSize: '200% 200%' }}
+            animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
+            transition={{ duration: 5, ease: "linear", repeat: Infinity }}
+        >
+            {children}
+        </motion.span>
+    </motion.h2>
 );
 
 export { SectionTitle };
