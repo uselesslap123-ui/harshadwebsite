@@ -31,17 +31,17 @@ export const skills: Skill[] = [
   { 
     name: "Basic Electronics", 
     icon: CircuitBoard,
-    details: `### 10 Key Concepts in Basic Electronics
-* **1. Fundamental Components:** Understanding core components like **resistors**, **capacitors**, **inductors**, **diodes**, and **transistors** and their unique roles in a circuit.
-* **2. Ohm's Law:** Applying the fundamental relationship between **voltage (V)**, **current (I)**, and **resistance (R)**, expressed as V = IR, to predict circuit behavior.
-* **3. Kirchhoff's Laws:** Using **Kirchhoff's Current Law (KCL)** to manage current at junctions and **Kirchhoff's Voltage Law (KVL)** to analyze voltage drops in loops.
-* **4. Series and Parallel Circuits:** Analyzing how components behave differently when connected in **series** (a single path for current) versus **parallel** (multiple paths).
-* **5. AC vs. DC Signals:** Differentiating between **Alternating Current (AC)**, which changes direction, and **Direct Current (DC)**, which flows in one direction.
-* **6. Semiconductor Theory:** Grasping how semiconductor materials like silicon form the basis for modern electronics, including diodes and transistors.
-* **7. Diodes and Rectification:** Understanding how **diodes** allow current to flow in one direction and their use in converting AC to DC (rectification).
-* **8. Transistor Fundamentals:** Learning how **transistors** can act as electronic switches or amplifiers, forming the building blocks of digital logic and processors.
-* **9. Capacitors and Inductors:** Studying how **capacitors** store energy in an electric field and how **inductors** store energy in a magnetic field, crucial for filtering and timing circuits.
-* **10. Basic Safety Practices:** Recognizing the importance of safety when working with electricity, including proper handling of components and understanding voltage levels.`
+    details: `### 📘 10 Points Learned in Basic Electronics
+* **Ohm’s Law** — The relationship between voltage, current, and resistance is defined as V = I × R.
+* **Types of Components** — Basic electronic circuits use resistors, capacitors, inductors, diodes, and transistors.
+* **Series and Parallel Circuits** — Components can be connected in series or parallel, affecting voltage and current distribution.
+* **Diodes** — Diodes allow current to flow in only one direction and are used for rectification.
+* **Capacitors** — Capacitors store and release electrical energy and are used for filtering and timing applications.
+* **Transistors** — Transistors act as switches or amplifiers in electronic circuits.
+* **Power and Energy** — Electrical power is calculated as P = V × I, and it represents the rate of energy consumption.
+* **AC and DC** — Direct current (DC) flows in one direction, while alternating current (AC) changes direction periodically.
+* **Signal Filtering** — Filters are used to remove unwanted frequencies from a signal using capacitors and inductors.
+* **Safety Practices** — Proper grounding, insulation, and current limits are essential to prevent damage and ensure user safety.`
   },
   { 
     name: "Circuit Analysis", 
