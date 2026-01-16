@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -8,6 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { studentName } from '@/lib/data';
 
 interface AiChatAssistantProps {
   isOpen: boolean;
@@ -17,6 +19,10 @@ interface AiChatAssistantProps {
 export function AiChatAssistant({ isOpen, setIsOpen }: AiChatAssistantProps) {
   const [input, setInput] = useState('');
   const { toast } = useToast();
+  
+  const heroImage = PlaceHolderImages.find(p => p.id === 'hero');
+  const studentInitials = studentName.split(' ').map(n => n[0]).join('');
+
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,27 +59,31 @@ export function AiChatAssistant({ isOpen, setIsOpen }: AiChatAssistantProps) {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="fixed bottom-24 right-4 z-50 w-[calc(100vw-2rem)] max-w-sm"
           >
-            <Card className="shadow-2xl rounded-xl overflow-hidden">
-              <CardHeader className="flex flex-row items-center justify-between bg-card p-4 border-b">
+            <Card className="shadow-2xl rounded-xl overflow-hidden border-border/20">
+              <CardHeader className="flex flex-row items-center justify-between bg-primary text-primary-foreground p-4">
                 <div className="flex items-center gap-3">
                   <motion.div
                     animate={{ rotate: [0, 15, -10, 5, 0] }}
                     transition={{ duration: 0.5, ease: "easeInOut" }}
                   >
-                    <Bot className="text-primary h-7 w-7"/>
+                    <Bot className="h-7 w-7"/>
                   </motion.div>
                   <CardTitle className="text-lg font-headline">Quick Message</CardTitle>
                 </div>
-                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setIsOpen(false)}>
+                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-primary-foreground/10" onClick={() => setIsOpen(false)}>
                   <X className="h-5 w-5" />
                 </Button>
               </CardHeader>
-              <CardContent className="p-4 bg-background/50">
+              <CardContent className="p-6 bg-card flex flex-col items-center text-center gap-4">
+                <Avatar className="h-16 w-16 border-2 border-primary/50">
+                    {heroImage && <AvatarImage src={heroImage.imageUrl} alt={studentName} />}
+                    <AvatarFallback className="text-2xl">{studentInitials}</AvatarFallback>
+                </Avatar>
                 <p className="text-sm text-muted-foreground">
-                  Have a quick question? Send me a message directly on WhatsApp!
+                  Have a quick question? Send me a message on WhatsApp and I'll get back to you!
                 </p>
               </CardContent>
-              <CardFooter className="p-2 border-t bg-card">
+              <CardFooter className="p-4 bg-card/80 backdrop-blur-sm border-t">
                 <form onSubmit={handleSendMessage} className="flex w-full items-center gap-2">
                   <Input
                     value={input}
