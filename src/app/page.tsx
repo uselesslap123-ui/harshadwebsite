@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Header } from '@/components/landing/header';
@@ -12,8 +11,13 @@ import { Education } from '@/components/landing/education';
 import { Contact } from '@/components/landing/contact';
 import { Footer } from '@/components/landing/footer';
 import { motion } from 'framer-motion';
+import { AiChatAssistant } from '@/components/landing/ai-chat-assistant';
+import { ScrollEndNotifier } from '@/components/shared/scroll-end-notifier';
+import { useState } from 'react';
 
 export default function Home() {
+  const [showChat, setShowChat] = useState(false);
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -33,6 +37,8 @@ export default function Home() {
           <Education />
           <Contact />
         </div>
+        <ScrollEndNotifier onScrollEnd={() => setShowChat(true)} />
+        <AiChatAssistant show={showChat} onHide={() => setShowChat(false)} />
       </main>
       <Footer />
     </motion.div>
