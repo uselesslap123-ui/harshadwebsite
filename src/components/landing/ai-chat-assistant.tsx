@@ -6,8 +6,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { MessageSquare, Send, X, Loader2, Bot } from 'lucide-react';
+import { MessageSquare, Send, X, Loader2, Bot, Volume2, VolumeX } from 'lucide-react';
 import { chatWithAssistant } from '@/ai/flows/chat-assistant';
+import { textToSpeech } from '@/ai/flows/text-to-speech';
 import { studentName } from '@/lib/data';
 import { AvatarWithRing } from '../shared/avatar-with-ring';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -25,6 +26,10 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const avatarImage = PlaceHolderImages.find(p => p.id === 'avatar');
 
+  const [audioLoadingId, setAudioLoadingId] = useState<string | null>(null);
+  const [playingAudioId, setPlayingAudioId] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
   const scrollToBottom = () => {
     if (scrollAreaRef.current) {
       const scrollViewport = scrollAreaRef.current.querySelector('div');
@@ -39,6 +44,14 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
       setTimeout(scrollToBottom, 100);
     }
   }, [history, isOpen]);
+  
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    };
+  }, []);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,6 +75,43 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
       setHistory((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
+    }
+  };
+  
+  const handleSpeak = async (messageId: string, text: string) => {
+    if (playingAudioId === messageId && audioRef.current) {
+      audioRef.current.pause();
+      setPlayingAudioId(null);
+      return;
+    }
+
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+
+    setAudioLoadingId(messageId);
+    setPlayingAudioId(null);
+
+    try {
+      const { audio } = await textToSpeech(text);
+      const newAudio = new Audio(audio);
+      audioRef.current = newAudio;
+      
+      newAudio.onplay = () => {
+          setPlayingAudioId(messageId);
+      };
+
+      newAudio.onended = () => {
+          setPlayingAudioId(null);
+          audioRef.current = null;
+      };
+      
+      newAudio.play();
+
+    } catch (error) {
+      console.error('Error generating speech:', error);
+    } finally {
+      setAudioLoadingId(null);
     }
   };
 
@@ -121,33 +171,68 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
                 <ScrollArea className="flex-1" ref={scrollAreaRef}>
                   <div className="p-4 space-y-6">
                     <div className="flex items-start gap-3">
-                      {avatarImage && <AvatarWithRing imageUrl={avatarImage.imageUrl} alt={studentName} />}
-                      <div className="bg-muted p-3 rounded-lg rounded-tl-none max-w-[80%]">
-                        <p className="font-semibold text-sm mb-1">{studentName}</p>
-                        <p className="text-sm">Hi there! I'm Harshad's AI assistant. Feel free to ask me anything about his skills, projects, or experience.</p>
+                      {avatarImage && <AvatarWithRing imageUrl={avatarImage.imageUrl} alt="AI Assistant" />}
+                      <div className="bg-muted p-3 rounded-lg rounded-tl-none max-w-[80%] group relative">
+                        <p className="font-semibold text-sm mb-1">AI Assistant</p>
+                        <p className="text-sm">Hi there! I'm Harshad's AI assistant. Feel free to ask me anything about his skills, projects, or experience. I can also speak my answers out loud!</p>
+                         <Button
+                            variant="ghost"
+                            size="icon"
+                            className="absolute -bottom-4 -right-4 h-8 w-8 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={() => handleSpeak("initial-greeting", "Hi there! I'm Harshad's AI assistant. Feel free to ask me anything about his skills, projects, or experience. I can also speak my answers out loud!")}
+                            disabled={audioLoadingId !== null}
+                        >
+                            {audioLoadingId === "initial-greeting" ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : playingAudioId === "initial-greeting" ? (
+                                <VolumeX className="h-4 w-4" />
+                            ) : (
+                                <Volume2 className="h-4 w-4" />
+                            )}
+                        </Button>
                       </div>
                     </div>
 
-                    {history.map((msg, index) => (
-                      <div
-                        key={index}
-                        className={`flex items-start gap-3 ${
-                          msg.role === 'user' ? 'justify-end' : 'justify-start'
-                        }`}
-                      >
-                        {msg.role === 'model' && avatarImage && <AvatarWithRing imageUrl={avatarImage.imageUrl} alt="AI Assistant"/>}
-
+                    {history.map((msg, index) => {
+                      const messageId = `msg-${index}`;
+                      return (
                         <div
-                          className={`p-3 rounded-lg max-w-[80%] ${
-                            msg.role === 'user'
-                              ? 'bg-primary text-primary-foreground rounded-br-none'
-                              : 'bg-muted rounded-tl-none'
+                          key={messageId}
+                          className={`flex items-start gap-3 ${
+                            msg.role === 'user' ? 'justify-end' : 'justify-start'
                           }`}
                         >
-                          <p className="text-sm whitespace-pre-wrap">{msg.parts[0].text}</p>
+                          {msg.role === 'model' && avatarImage && <AvatarWithRing imageUrl={avatarImage.imageUrl} alt="AI Assistant"/>}
+
+                          <div
+                            className={`p-3 rounded-lg max-w-[80%] group relative ${
+                              msg.role === 'user'
+                                ? 'bg-primary text-primary-foreground rounded-br-none'
+                                : 'bg-muted rounded-tl-none'
+                            }`}
+                          >
+                            <p className="text-sm whitespace-pre-wrap">{msg.parts[0].text}</p>
+                            {msg.role === 'model' && (
+                              <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="absolute -bottom-4 -right-4 h-8 w-8 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity"
+                                  onClick={() => handleSpeak(messageId, msg.parts[0].text)}
+                                  disabled={audioLoadingId !== null}
+                              >
+                                  {audioLoadingId === messageId ? (
+                                      <Loader2 className="h-4 w-4 animate-spin" />
+                                  ) : playingAudioId === messageId ? (
+                                      <VolumeX className="h-4 w-4" />
+                                  ) : (
+                                      <Volume2 className="h-4 w-4" />
+                                  )}
+                              </Button>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      )
+                    })}
                     {isLoading && (
                       <div className="flex items-start gap-3">
                         {avatarImage && <AvatarWithRing imageUrl={avatarImage.imageUrl} alt="AI Assistant"/>}
