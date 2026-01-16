@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -59,20 +60,15 @@ const chatAssistantFlow = ai.defineFlow(
     outputSchema: ChatWithAssistantOutputSchema,
   },
   async ({ history, message }) => {
-    const prompt = [
-      {
-        role: 'system',
-        content: [{ text: portfolioContext }],
-      },
-      ...history.map((h: any) => ({ role: h.role, content: [{ text: h.parts[0].text }] })),
-      {
-        role: 'user',
-        content: [{ text: message }],
-      },
-    ];
+    const genkitHistory = history.map((msg: any) => ({
+      role: msg.role,
+      content: msg.parts,
+    }));
 
     const { output } = await ai.generate({
-      prompt: prompt as any, // Cast to any to handle the structure
+      system: portfolioContext,
+      history: genkitHistory,
+      prompt: message,
     });
 
     return { response: output?.text || "I'm sorry, I couldn't generate a response." };
