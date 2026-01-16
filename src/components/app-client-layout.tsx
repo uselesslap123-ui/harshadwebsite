@@ -4,8 +4,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { AppThemeProvider } from '@/components/theme-provider';
 import { useEffect, useState } from 'react';
 import { SplashScreen } from '@/components/splash-screen';
-import { AiChatAssistant } from '@/components/ai-chat-assistant';
-import { ScrollEndNotifier } from '@/components/scroll-end-notifier';
 
 export function AppClientLayout({
     children,
@@ -13,7 +11,6 @@ export function AppClientLayout({
     children: React.ReactNode;
 }>) {
     const [isLoading, setIsLoading] = useState(true);
-    const [isChatOpen, setIsChatOpen] = useState(false);
 
     useEffect(() => {
         // Simulate a loading time for the splash screen
@@ -37,8 +34,6 @@ export function AppClientLayout({
                 >
                     {children}
                     <Toaster />
-                    <AiChatAssistant isOpen={isChatOpen} setIsOpen={setIsChatOpen} />
-                    <ScrollEndNotifier onOpenChat={() => setIsChatOpen(true)} />
                 </AppThemeProvider>
             )}
         </>
