@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -12,10 +13,10 @@ import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 import wav from 'wav';
 
-export const TextToSpeechInputSchema = z.string();
+const TextToSpeechInputSchema = z.string();
 export type TextToSpeechInput = z.infer<typeof TextToSpeechInputSchema>;
 
-export const TextToSpeechOutputSchema = z.object({
+const TextToSpeechOutputSchema = z.object({
   audio: z.string().describe('The base64 encoded WAV audio data as a data URI.'),
 });
 export type TextToSpeechOutput = z.infer<typeof TextToSpeechOutputSchema>;
