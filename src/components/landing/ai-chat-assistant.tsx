@@ -7,9 +7,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { MessageSquare, Send, X, Loader2, Bot, Volume2, VolumeX } from 'lucide-react';
-import { chatWithAssistant } from '@/ai/flows/chat-assistant';
 import { textToSpeech } from '@/ai/flows/text-to-speech';
-import { studentName } from '@/lib/data';
 import { AvatarWithRing } from '../shared/avatar-with-ring';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
@@ -22,7 +20,6 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
   const [isOpen, setIsOpen] = useState(false);
   const [history, setHistory] = useState<Message[]>([]);
   const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const avatarImage = PlaceHolderImages.find(p => p.id === 'avatar');
 
@@ -53,29 +50,18 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
     };
   }, []);
 
-  const handleSendMessage = async (e: React.FormEvent) => {
+  const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim() || isLoading) return;
+    if (!input.trim()) return;
 
     const userMessage = { role: 'user' as const, parts: [{ text: input }] };
     setHistory((prev) => [...prev, userMessage]);
+    
+    const phoneNumber = "9130947966";
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(input)}`;
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    
     setInput('');
-    setIsLoading(true);
-
-    try {
-      const result = await chatWithAssistant({ history, message: input });
-      const modelMessage = { role: 'model' as const, parts: [{ text: result.response }] };
-      setHistory((prev) => [...prev, modelMessage]);
-    } catch (error) {
-      console.error('Error chatting with assistant:', error);
-      const errorMessage = {
-        role: 'model' as const,
-        parts: [{ text: 'Sorry, something went wrong. Please try again.' }],
-      };
-      setHistory((prev) => [...prev, errorMessage]);
-    } finally {
-      setIsLoading(false);
-    }
   };
   
   const handleSpeak = async (messageId: string, text: string) => {
@@ -161,7 +147,7 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
               <CardHeader className="flex flex-row items-center justify-between bg-primary text-primary-foreground p-4 border-b">
                 <div className="flex items-center gap-3">
                   <Bot size={24} />
-                  <CardTitle className="text-lg font-semibold">AI Assistant</CardTitle>
+                  <CardTitle className="text-lg font-semibold">Message on WhatsApp</CardTitle>
                 </div>
                 <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-primary/80" onClick={() => { setIsOpen(false); onHide(); }}>
                   <X size={20} />
@@ -173,13 +159,13 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
                     <div className="flex items-start gap-3">
                       {avatarImage && <AvatarWithRing imageUrl={avatarImage.imageUrl} alt="AI Assistant" />}
                       <div className="bg-muted p-3 rounded-lg rounded-tl-none max-w-[80%] group relative">
-                        <p className="font-semibold text-sm mb-1">AI Assistant</p>
-                        <p className="text-sm">Hi there! I'm Harshad's AI assistant. Feel free to ask me anything about his skills, projects, or experience. I can also speak my answers out loud!</p>
+                        <p className="font-semibold text-sm mb-1">Assistant</p>
+                        <p className="text-sm">Hi there! Type your message below and I'll redirect you to WhatsApp to send it directly to me.</p>
                          <Button
                             variant="ghost"
                             size="icon"
                             className="absolute -bottom-4 -right-4 h-8 w-8 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity"
-                            onClick={() => handleSpeak("initial-greeting", "Hi there! I'm Harshad's AI assistant. Feel free to ask me anything about his skills, projects, or experience. I can also speak my answers out loud!")}
+                            onClick={() => handleSpeak("initial-greeting", "Hi there! Type your message below and I'll redirect you to WhatsApp to send it directly to me.")}
                             disabled={audioLoadingId !== null}
                         >
                             {audioLoadingId === "initial-greeting" ? (
@@ -233,14 +219,6 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
                         </div>
                       )
                     })}
-                    {isLoading && (
-                      <div className="flex items-start gap-3">
-                        {avatarImage && <AvatarWithRing imageUrl={avatarImage.imageUrl} alt="AI Assistant"/>}
-                        <div className="bg-muted p-3 rounded-lg rounded-tl-none">
-                          <Loader2 className="h-5 w-5 animate-spin" />
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </ScrollArea>
               </CardContent>
@@ -249,11 +227,10 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
                   <Input
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder="Ask about my projects..."
+                    placeholder="Type your message..."
                     autoComplete="off"
-                    disabled={isLoading}
                   />
-                  <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>
+                  <Button type="submit" size="icon" disabled={!input.trim()}>
                     <Send size={20} />
                   </Button>
                 </form>
