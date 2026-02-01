@@ -10,7 +10,6 @@ import { SectionWrapper, SectionTitle } from '@/components/shared/section-wrappe
 import { Card, CardContent } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Send, Loader2 } from 'lucide-react';
@@ -18,8 +17,9 @@ import { Send, Loader2 } from 'lucide-react';
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
   email: z.string().email({ message: 'Please enter a valid email.' }),
+  contactNo: z.string().optional(),
   subject: z.string().min(5, { message: 'Subject must be at least 5 characters.' }),
-  message: z.string().min(10, { message: 'Message must be at least 10 characters.' }),
+  position: z.string().min(2, { message: 'Position must be at least 2 characters.' }),
 });
 
 export function Contact() {
@@ -31,15 +31,16 @@ export function Contact() {
     defaultValues: {
       name: '',
       email: '',
+      contactNo: '',
       subject: '',
-      message: '',
+      position: '',
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
 
-    const { name, email, subject, message } = values;
+    const { name, email, contactNo, subject, position } = values;
     const phoneNumber = "9130947966";
     
     const formattedMessage = `
@@ -47,10 +48,9 @@ export function Contact() {
 -------------------------
 *Name:* ${name}
 *Email:* ${email}
+*Contact No:* ${contactNo || 'Not provided'}
 *Subject:* ${subject}
-
-*Message:*
-${message}
+*Position:* ${position}
     `.trim();
 
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(formattedMessage)}`;
@@ -133,6 +133,22 @@ ${message}
                 <motion.div variants={itemVariants}>
                   <FormField
                     control={form.control}
+                    name="contactNo"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Contact No (Optional)</FormLabel>
+                        <FormControl>
+                          <Input placeholder="e.g. +91 12345 67890" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </motion.div>
+
+                <motion.div variants={itemVariants}>
+                  <FormField
+                    control={form.control}
                     name="subject"
                     render={({ field }) => (
                       <FormItem>
@@ -145,16 +161,16 @@ ${message}
                     )}
                   />
                 </motion.div>
-
+                
                 <motion.div variants={itemVariants}>
                   <FormField
                     control={form.control}
-                    name="message"
+                    name="position"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Your Message</FormLabel>
+                        <FormLabel>Position</FormLabel>
                         <FormControl>
-                          <Textarea placeholder="Write your message here..." rows={7} {...field} />
+                          <Input placeholder="e.g. Software Engineer" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
