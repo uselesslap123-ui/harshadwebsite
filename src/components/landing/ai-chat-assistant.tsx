@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -136,14 +137,14 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed bottom-0 right-0 sm:bottom-6 sm:right-6 z-50"
+            className="fixed inset-0 z-50 sm:inset-auto sm:bottom-6 sm:right-6 sm:w-[380px] sm:max-h-[80vh] sm:h-auto"
             variants={containerVariants}
             initial="closed"
             animate="open"
             exit="closed"
             transition={{ type: 'spring', stiffness: 400, damping: 30 }}
           >
-            <Card className="w-full h-full sm:w-[380px] sm:h-auto sm:max-h-[80vh] flex flex-col shadow-2xl rounded-none sm:rounded-lg">
+            <Card className="w-full h-full flex flex-col shadow-2xl rounded-none sm:rounded-lg">
               <CardHeader className="flex flex-row items-center justify-between bg-primary text-primary-foreground p-4 border-b">
                 <div className="flex items-center gap-3">
                   <Bot size={24} />
