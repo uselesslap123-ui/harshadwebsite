@@ -43,15 +43,7 @@ export function Contact() {
     const { name, email, contactNo, subject, position } = values;
     const phoneNumber = "9130947966";
     
-    const formattedMessage = `
-*Contact Form Submission*
--------------------------
-*Name:* ${name}
-*Email:* ${email}
-*Contact No:* ${contactNo || 'Not provided'}
-*Subject:* ${subject}
-*Position:* ${position}
-    `.trim();
+    const formattedMessage = `*Contact Form Submission*\n\n*Name:* ${name}\n*Email:* ${email}\n*Contact No:* ${contactNo || 'Not provided'}\n*Subject:* ${subject}\n*Position:* ${position}`;
 
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(formattedMessage)}`;
 
