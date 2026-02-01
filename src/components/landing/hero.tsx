@@ -22,30 +22,6 @@ export function Hero() {
 
   const firstName = studentName.split(' ')[0];
 
-  const nameContainer = {
-    hidden: { opacity: 1 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 1,
-      },
-    },
-  };
-
-  const letterVariant = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: 'spring',
-        damping: 12,
-        stiffness: 100,
-      },
-    },
-  };
-
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden text-center">
         <Image
@@ -94,18 +70,7 @@ export function Hero() {
                     animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
                     transition={{ duration: 3, ease: "linear", repeat: Infinity, delay: 1.5 }}
                 >
-                    <motion.span
-                        className="inline-block"
-                        variants={nameContainer}
-                        initial="hidden"
-                        animate="visible"
-                    >
-                        {firstName.split('').map((char, index) => (
-                            <motion.span key={`${char}-${index}`} variants={letterVariant} className="inline-block">
-                                {char}
-                            </motion.span>
-                        ))}
-                    </motion.span>
+                    {firstName}
                 </motion.span>
             </motion.h1>
             <p className="mt-4 max-w-3xl mx-auto text-xl md:text-2xl text-slate-300 italic drop-shadow-md">
