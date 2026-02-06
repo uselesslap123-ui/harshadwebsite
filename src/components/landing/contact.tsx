@@ -12,7 +12,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Send, Loader2 } from 'lucide-react';
+import { Send, Loader2, FileText } from 'lucide-react';
+import { jsPDF } from 'jspdf';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -37,21 +38,83 @@ export function Contact() {
     },
   });
 
+  const generatePDF = (data: z.infer<typeof formSchema>) => {
+    const doc = new jsPDF();
+    const timestamp = new Date().toLocaleString();
+
+    // Header
+    doc.setFontSize(22);
+    doc.setTextColor(63, 81, 181); // Primary color theme
+    doc.text('Inquiry Document', 20, 20);
+    
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.text(`Generated on: ${timestamp}`, 20, 30);
+    
+    doc.setLineWidth(0.5);
+    doc.line(20, 35, 190, 35);
+
+    // Content
+    doc.setFontSize(14);
+    doc.setTextColor(0);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Contact Details:', 20, 50);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(12);
+    const details = [
+      ['Full Name:', data.name],
+      ['Email Address:', data.email],
+      ['Contact Number:', data.contactNo || 'Not Provided'],
+      ['Subject:', data.subject],
+      ['Target Position:', data.position],
+    ];
+
+    let yPos = 65;
+    details.forEach(([label, value]) => {
+      doc.setFont('helvetica', 'bold');
+      doc.text(label, 20, yPos);
+      doc.setFont('helvetica', 'normal');
+      doc.text(value, 60, yPos);
+      yPos += 12;
+    });
+
+    // Footer
+    doc.setFontSize(10);
+    doc.setTextColor(150);
+    doc.text('This is an automated document generated from Harshad Shewale\'s Portfolio.', 20, 280);
+
+    doc.save(`Inquiry_${data.name.replace(/\s+/g, '_')}.pdf`);
+  };
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
 
     const { name, email, contactNo, subject, position } = values;
     const phoneNumber = "9130947966";
     
-    const formattedMessage = `*Contact Form Submission*\n\n*Name:* ${name}\n*Email:* ${email}\n*Contact No:* ${contactNo || 'Not provided'}\n*Subject:* ${subject}\n*Position:* ${position}`;
+    // Proper Markdown Formatting for WhatsApp
+    const formattedMessage = `*New Inquiry Details*\n` +
+      `----------------------------\n` +
+      `👤 *Name:* ${name}\n` +
+      `📧 *Email:* ${email}\n` +
+      `📞 *Contact:* ${contactNo || 'N/A'}\n` +
+      `📌 *Subject:* ${subject}\n` +
+      `💼 *Position:* ${position}\n` +
+      `----------------------------\n` +
+      `_Generated via Harshad's Portfolio_`;
 
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(formattedMessage)}`;
 
+    // Generate and Download PDF
+    generatePDF(values);
+
+    // Redirect to WhatsApp
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     
     toast({
-      title: 'Redirecting to WhatsApp',
-      description: "Your message is ready to be sent!",
+      title: 'Success!',
+      description: "PDF generated and redirecting to WhatsApp.",
     });
 
     form.reset();
@@ -175,12 +238,12 @@ export function Contact() {
                     {isSubmitting ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Sending...
+                        Generating...
                       </>
                     ) : (
                       <>
-                        Send Message
-                        <Send className="ml-2 h-4 w-4" />
+                        Send & Export PDF
+                        <FileText className="ml-2 h-4 w-4" />
                       </>
                     )}
                   </Button>
