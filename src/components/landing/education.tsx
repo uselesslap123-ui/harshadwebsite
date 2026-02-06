@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { SectionWrapper, SectionTitle } from '@/components/shared/section-wrapper';
 import { Card, CardContent } from '@/components/ui/card';
 import { education } from '@/lib/data';
-import { GraduationCap } from 'lucide-react';
+import { GraduationCap, MousePointer2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { BVCOELogo } from '@/components/shared/icons';
 
@@ -36,9 +36,37 @@ export function Education() {
                   <h3 className="text-xl font-headline font-semibold">{education.degree}</h3>
                 </div>
                 <div className="pl-0 sm:pl-9 space-y-2">
-                  <Link href="https://bvcoenm.edu.in/" target="_blank" rel="noopener noreferrer" className="text-lg font-medium text-muted-foreground hover:text-primary transition-colors">
-                    {education.university}
-                  </Link>
+                  <motion.div
+                    initial={{ scale: 1 }}
+                    whileInView={{ 
+                      scale: [1, 1.03, 1],
+                      transition: { 
+                        duration: 2, 
+                        repeat: Infinity, 
+                        repeatType: "reverse",
+                        ease: "easeInOut"
+                      } 
+                    }}
+                    className="inline-block"
+                  >
+                    <Link 
+                      href="https://bvcoenm.edu.in/" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="text-lg font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
+                    >
+                      <span>{education.university}</span>
+                      <motion.span
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.8, duration: 0.5 }}
+                        className="text-primary hidden sm:flex items-center"
+                      >
+                        <MousePointer2 className="h-4 w-4 animate-bounce" />
+                        <span className="text-xs font-bold ml-1 opacity-0 group-hover:opacity-100 transition-opacity">Visit Site</span>
+                      </motion.span>
+                    </Link>
+                  </motion.div>
                   <p className="font-semibold text-primary">{education.years}</p>
                   <p className="text-sm text-foreground/70 italic">{education.status}</p>
                 </div>
