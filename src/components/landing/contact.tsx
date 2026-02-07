@@ -12,7 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, FileText } from 'lucide-react';
+import { Loader2, FileText, Share2 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import { studentName } from '@/lib/data';
 
@@ -99,7 +99,7 @@ export function Contact() {
     doc.text(`Official Inquiry for ${studentName}`, 20, 275);
     doc.text('This document serves as a formal record of contact.', 20, 282);
 
-    doc.save(`Inquiry_${data.name.replace(/\s+/g, '_')}.pdf`);
+    return doc.save(`Inquiry_${data.name.replace(/\s+/g, '_')}.pdf`, { returnPromise: true });
   };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -109,33 +109,31 @@ export function Contact() {
       const { name, email, contactNo, subject, position } = values;
       const phoneNumber = "9130947966";
       
-      const formattedMessage = `*FORMAL INQUIRY ATTACHED*\n` +
+      const formattedMessage = `*FORMAL PDF INQUIRY PREPARED*\n` +
         `----------------------------\n` +
         `👤 *Name:* ${name}\n` +
         `📧 *Email:* ${email}\n` +
-        `📞 *Contact:* ${contactNo || 'N/A'}\n` +
         `📌 *Subject:* ${subject}\n` +
         `💼 *Position:* ${position}\n` +
         `----------------------------\n` +
-        `_Hello, I have generated a formal PDF of this inquiry. Please check the attached document._`;
+        `_Hello, I have just downloaded a professional PDF of this inquiry. I am now attaching it to this chat. Please review it._`;
 
       const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(formattedMessage)}`;
 
-      // Generate PDF
+      // Generate and Download PDF
       generatePDF(values);
 
-      // Give instructions
       toast({
-        title: 'PDF Exported!',
-        description: "Your inquiry is saved as a PDF. Please attach it in the WhatsApp window that just opened.",
+        title: 'Step 1 Complete: PDF Downloaded',
+        description: "Step 2: Attach the 'Inquiry' file in the WhatsApp window opening now.",
       });
 
-      // Small delay to ensure download starts
+      // Small delay to ensure download initiates before redirect
       setTimeout(() => {
         window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
         form.reset();
         setIsSubmitting(false);
-      }, 800);
+      }, 1200);
 
     } catch (error) {
       toast({
@@ -231,16 +229,16 @@ export function Contact() {
                 />
                 
                 <div className="flex justify-end">
-                  <Button type="submit" size="lg" disabled={isSubmitting}>
+                  <Button type="submit" size="lg" disabled={isSubmitting} className="w-full sm:w-auto">
                     {isSubmitting ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Generating PDF...
+                        Preparing PDF...
                       </>
                     ) : (
                       <>
-                        Send Inquiry (Generates PDF)
-                        <FileText className="ml-2 h-4 w-4" />
+                        Send & Export to WhatsApp
+                        <Share2 className="ml-2 h-4 w-4" />
                       </>
                     )}
                   </Button>

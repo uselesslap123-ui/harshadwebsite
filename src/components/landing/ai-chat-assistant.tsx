@@ -1,13 +1,12 @@
 
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { X, Bot, FileText, Send } from 'lucide-react';
+import { X, Bot, FileText, Send, Paperclip } from 'lucide-react';
 import { AvatarWithRing } from '../shared/avatar-with-ring';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { jsPDF } from 'jspdf';
@@ -17,6 +16,7 @@ import { useToast } from '@/hooks/use-toast';
 export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
   const avatarImage = PlaceHolderImages.find(p => p.id === 'avatar');
   const { toast } = useToast();
 
@@ -24,53 +24,55 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
     const doc = new jsPDF();
     const timestamp = new Date().toLocaleString();
 
-    doc.setFontSize(20);
+    doc.setFontSize(22);
     doc.setTextColor(63, 81, 181);
-    doc.text('Chat Inquiry', 20, 30);
+    doc.text('Quick Chat Inquiry', 20, 30);
     
     doc.setFontSize(10);
-    doc.setTextColor(100);
-    doc.text(`Generated: ${timestamp}`, 20, 40);
-    
+    doc.setTextColor(120);
+    doc.text(`Timestamp: ${timestamp}`, 20, 40);
     doc.line(20, 45, 190, 45);
 
     doc.setFontSize(12);
     doc.setTextColor(0);
     doc.setFont('helvetica', 'bold');
-    doc.text('Message Content:', 20, 60);
+    doc.text('Inquiry Message:', 20, 60);
 
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(message, 150), 20, 70);
+    doc.text(doc.splitTextToSize(message, 170), 20, 70);
 
     doc.setFontSize(10);
     doc.setTextColor(150);
-    doc.text(`Message sent to ${studentName} via Portfolio Chat`, 20, 280);
+    doc.text(`Sent to ${studentName} via Portfolio Website`, 20, 280);
 
-    doc.save(`Chat_Inquiry_${Date.now()}.pdf`);
+    doc.save(`Portfolio_Chat_${Date.now()}.pdf`);
   };
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    if (!input.trim() || isProcessing) return;
 
+    setIsProcessing(true);
     const phoneNumber = "9130947966";
-    const formattedMsg = `*PORTFOLIO INQUIRY ATTACHED*\n\nMessage: ${input}\n\n_Note: I have downloaded a PDF version of this message. Please check the attachment._`;
+    const formattedMsg = `*QUICK PDF INQUIRY*\n\n_Note: I have just downloaded a formal PDF of this message. I am now attaching it here for your review._\n\nMessage: ${input}`;
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(formattedMsg)}`;
     
-    // 1. Generate and Download PDF immediately
+    // 1. Generate and Download PDF
     generateQuickPdf(input);
 
-    // 2. Notify user
+    // 2. Notify user with explicit instructions
     toast({
-      title: 'PDF Ready!',
-      description: 'Your message is now a PDF. Please attach it in WhatsApp.',
+      title: 'PDF Downloaded!',
+      description: 'Redirecting to WhatsApp. Please use the Paperclip icon to attach the PDF.',
     });
 
     // 3. Redirect after short delay
     setTimeout(() => {
       window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
       setInput('');
-    }, 800);
+      setIsProcessing(false);
+      setIsOpen(false);
+    }, 1500);
   };
 
   const containerVariants = {
@@ -111,25 +113,33 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
             animate="open"
             exit="closed"
           >
-            <Card className="w-full h-full flex flex-col shadow-2xl rounded-none sm:rounded-lg">
-              <CardHeader className="flex flex-row items-center justify-between bg-primary text-primary-foreground p-4 border-b">
+            <Card className="w-full h-full flex flex-col shadow-2xl rounded-none sm:rounded-lg overflow-hidden">
+              <CardHeader className="flex flex-row items-center justify-between bg-primary text-primary-foreground p-4">
                 <div className="flex items-center gap-3">
                   <Bot size={24} />
-                  <CardTitle className="text-lg font-semibold">Quick PDF Inquiry</CardTitle>
+                  <CardTitle className="text-lg font-semibold">PDF Chat Export</CardTitle>
                 </div>
-                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-primary/80" onClick={() => { setIsOpen(false); onHide(); }}>
+                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-white/20" onClick={() => setIsOpen(false)}>
                   <X size={20} />
                 </Button>
               </CardHeader>
               <CardContent className="flex-1 p-6 bg-muted/30">
                 <div className="flex items-start gap-3 mb-6">
                   {avatarImage && <AvatarWithRing imageUrl={avatarImage.imageUrl} alt="Assistant" />}
-                  <div className="bg-background border p-3 rounded-lg rounded-tl-none text-sm shadow-sm">
-                    <p>Hi! I'll turn your message into a **professional PDF** and help you send it to Harshad via WhatsApp.</p>
+                  <div className="bg-background border p-4 rounded-lg rounded-tl-none text-sm shadow-sm">
+                    <p>Tell me what you need, and I'll generate a **professional PDF** for you to send to Harshad via WhatsApp.</p>
                   </div>
                 </div>
-                <div className="p-4 bg-primary/5 border border-primary/20 rounded-md text-xs text-primary text-center italic">
-                  PDF will download automatically when you click send.
+                
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-xs text-primary font-medium bg-primary/10 p-2 rounded border border-primary/20">
+                    <FileText size={14} />
+                    <span>PDF generates on click</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-primary font-medium bg-primary/10 p-2 rounded border border-primary/20">
+                    <Paperclip size={14} />
+                    <span>Attach it in WhatsApp manually</span>
+                  </div>
                 </div>
               </CardContent>
               <CardFooter className="p-4 border-t bg-background">
@@ -137,10 +147,11 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
                   <Input
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder="Type your inquiry..."
+                    placeholder="Type your message..."
                     autoComplete="off"
+                    disabled={isProcessing}
                   />
-                  <Button type="submit" size="icon" disabled={!input.trim()}>
+                  <Button type="submit" size="icon" disabled={!input.trim() || isProcessing}>
                     <Send size={20} />
                   </Button>
                 </form>
