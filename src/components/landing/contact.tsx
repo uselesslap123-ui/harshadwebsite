@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -11,7 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Send, Loader2, FileText } from 'lucide-react';
+import { Loader2, FileText } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import { studentName } from '@/lib/data';
 
@@ -108,7 +109,7 @@ export function Contact() {
       const { name, email, contactNo, subject, position } = values;
       const phoneNumber = "9130947966";
       
-      const formattedMessage = `*Formal Inquiry (PDF Generated)*\n` +
+      const formattedMessage = `*FORMAL INQUIRY ATTACHED*\n` +
         `----------------------------\n` +
         `👤 *Name:* ${name}\n` +
         `📧 *Email:* ${email}\n` +
@@ -116,161 +117,134 @@ export function Contact() {
         `📌 *Subject:* ${subject}\n` +
         `💼 *Position:* ${position}\n` +
         `----------------------------\n` +
-        `_Note: I have attached the formal PDF inquiry for your records._`;
+        `_Hello, I have generated a formal PDF of this inquiry. Please check the attached document._`;
 
       const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(formattedMessage)}`;
 
       // Generate PDF
       generatePDF(values);
 
-      // Small delay to ensure download starts before redirect
+      // Give instructions
+      toast({
+        title: 'PDF Exported!',
+        description: "Your inquiry is saved as a PDF. Please attach it in the WhatsApp window that just opened.",
+      });
+
+      // Small delay to ensure download starts
       setTimeout(() => {
         window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-        toast({
-          title: 'PDF Generated & Downloaded!',
-          description: "Please attach the PDF in the WhatsApp chat that just opened.",
-        });
         form.reset();
         setIsSubmitting(false);
-      }, 500);
+      }, 800);
 
     } catch (error) {
       toast({
         title: 'Error',
-        description: 'Failed to process inquiry. Please try again.',
+        description: 'Failed to process inquiry.',
         variant: 'destructive',
       });
       setIsSubmitting(false);
     }
   };
   
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 }
-  };
-
-
   return (
     <SectionWrapper id="contact" className="bg-card">
       <motion.div
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={containerVariants}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
       >
-        <motion.div variants={itemVariants}>
-          <SectionTitle>Contact Me</SectionTitle>
-        </motion.div>
+        <SectionTitle>Contact Me</SectionTitle>
         <Card className="max-w-3xl mx-auto shadow-lg border-border/50 overflow-hidden">
           <CardContent className="p-6 sm:p-8">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <motion.div variants={containerVariants} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <motion.div variants={itemVariants}>
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Your Name</FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g. Jane Doe" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </motion.div>
-                  <motion.div variants={itemVariants}>
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Your Email</FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g. jane.doe@example.com" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </motion.div>
-                </motion.div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Your Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Jane Doe" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Your Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="jane@example.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
-                <motion.div variants={itemVariants}>
-                  <FormField
-                    control={form.control}
-                    name="contactNo"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Contact No (Optional)</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g. +91 12345 67890" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </motion.div>
+                <FormField
+                  control={form.control}
+                  name="contactNo"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Contact No (Optional)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="+91 12345 67890" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                <motion.div variants={itemVariants}>
-                  <FormField
-                    control={form.control}
-                    name="subject"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Subject</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g. Internship Opportunity" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </motion.div>
+                <FormField
+                  control={form.control}
+                  name="subject"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Subject</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Project Proposal" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 
-                <motion.div variants={itemVariants}>
-                  <FormField
-                    control={form.control}
-                    name="position"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Position</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g. Software Engineer" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </motion.div>
+                <FormField
+                  control={form.control}
+                  name="position"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Position</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Software Engineer" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 
-                <motion.div variants={itemVariants} className="flex flex-col sm:flex-row justify-end gap-4">
+                <div className="flex justify-end">
                   <Button type="submit" size="lg" disabled={isSubmitting}>
                     {isSubmitting ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Processing...
+                        Generating PDF...
                       </>
                     ) : (
                       <>
-                        Send Inquiry (PDF Generated)
+                        Send Inquiry (Generates PDF)
                         <FileText className="ml-2 h-4 w-4" />
                       </>
                     )}
                   </Button>
-                </motion.div>
+                </div>
               </form>
             </Form>
           </CardContent>
