@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -12,8 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, FileText, Share2 } from 'lucide-react';
-import { jsPDF } from 'jspdf';
+import { Loader2, Share2 } from 'lucide-react';
 import { studentName } from '@/lib/data';
 
 const formSchema = z.object({
@@ -39,69 +37,6 @@ export function Contact() {
     },
   });
 
-  const generatePDF = (data: z.infer<typeof formSchema>) => {
-    const doc = new jsPDF();
-    const timestamp = new Date().toLocaleString();
-
-    // Background decoration
-    doc.setFillColor(245, 245, 250);
-    doc.rect(0, 0, 210, 297, 'F');
-
-    // Header
-    doc.setDrawColor(63, 81, 181);
-    doc.setLineWidth(1.5);
-    doc.line(20, 25, 190, 25);
-
-    doc.setFontSize(24);
-    doc.setTextColor(63, 81, 181);
-    doc.setFont('helvetica', 'bold');
-    doc.text('Professional Inquiry', 20, 45);
-    
-    doc.setFontSize(10);
-    doc.setTextColor(100);
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Reference ID: ${Math.random().toString(36).substring(7).toUpperCase()}`, 150, 45);
-    doc.text(`Generated: ${timestamp}`, 20, 55);
-    
-    // Content Box
-    doc.setFillColor(255, 255, 255);
-    doc.roundedRect(20, 65, 170, 100, 3, 3, 'F');
-    doc.setDrawColor(230, 230, 230);
-    doc.roundedRect(20, 65, 170, 100, 3, 3, 'S');
-
-    doc.setFontSize(12);
-    doc.setTextColor(50);
-    
-    const fields = [
-      { label: 'Sender Name', value: data.name },
-      { label: 'Email Address', value: data.email },
-      { label: 'Contact Number', value: data.contactNo || 'Not Provided' },
-      { label: 'Subject', value: data.subject },
-      { label: 'Applied Position', value: data.position },
-    ];
-
-    let yPos = 85;
-    fields.forEach((field) => {
-      doc.setFont('helvetica', 'bold');
-      doc.text(`${field.label}:`, 30, yPos);
-      doc.setFont('helvetica', 'normal');
-      doc.text(String(field.value), 80, yPos);
-      yPos += 15;
-    });
-
-    // Footer
-    doc.setDrawColor(63, 81, 181);
-    doc.setLineWidth(0.5);
-    doc.line(20, 265, 190, 265);
-    
-    doc.setFontSize(9);
-    doc.setTextColor(120);
-    doc.text(`Official Inquiry for ${studentName}`, 20, 275);
-    doc.text('This document serves as a formal record of contact.', 20, 282);
-
-    return doc.save(`Inquiry_${data.name.replace(/\s+/g, '_')}.pdf`, { returnPromise: true });
-  };
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
 
@@ -109,31 +44,28 @@ export function Contact() {
       const { name, email, contactNo, subject, position } = values;
       const phoneNumber = "9130947966";
       
-      const formattedMessage = `*FORMAL PDF INQUIRY PREPARED*\n` +
+      const formattedMessage = `*NEW INQUIRY*\n` +
         `----------------------------\n` +
         `👤 *Name:* ${name}\n` +
         `📧 *Email:* ${email}\n` +
+        `📞 *Contact:* ${contactNo || 'Not Provided'}\n` +
         `📌 *Subject:* ${subject}\n` +
         `💼 *Position:* ${position}\n` +
         `----------------------------\n` +
-        `_Hello, I have just downloaded a professional PDF of this inquiry. I am now attaching it to this chat. Please review it._`;
+        `_Sent via Portfolio Website_`;
 
       const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(formattedMessage)}`;
 
-      // Generate and Download PDF
-      generatePDF(values);
-
       toast({
-        title: 'Step 1 Complete: PDF Downloaded',
-        description: "Step 2: Attach the 'Inquiry' file in the WhatsApp window opening now.",
+        title: 'Form Submitted',
+        description: "Redirecting to WhatsApp...",
       });
 
-      // Small delay to ensure download initiates before redirect
       setTimeout(() => {
         window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
         form.reset();
         setIsSubmitting(false);
-      }, 1200);
+      }, 800);
 
     } catch (error) {
       toast({
@@ -233,11 +165,11 @@ export function Contact() {
                     {isSubmitting ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Preparing PDF...
+                        Redirecting...
                       </>
                     ) : (
                       <>
-                        Send & Export to WhatsApp
+                        Send to WhatsApp
                         <Share2 className="ml-2 h-4 w-4" />
                       </>
                     )}
