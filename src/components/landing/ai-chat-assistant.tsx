@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -17,7 +18,7 @@ type Message = {
   parts: [{ text: string }];
 };
 
-export function AiChatAssistant({ show }: { show: boolean; onHide?: () => void }) {
+export function AiChatAssistant({ show }: { show: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
@@ -26,7 +27,6 @@ export function AiChatAssistant({ show }: { show: boolean; onHide?: () => void }
   const scrollRef = useRef<HTMLDivElement>(null);
   const avatarImage = PlaceHolderImages.find((p) => p.id === 'avatar');
 
-  // Active effect: Show a small notification hint after 3 seconds to encourage interaction
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!isOpen) setShowNotification(true);
@@ -52,20 +52,20 @@ export function AiChatAssistant({ show }: { show: boolean; onHide?: () => void }
     setIsProcessing(true);
 
     try {
-      const response = await chatWithAssistant({
+      const result = await chatWithAssistant({
         message: userMessage,
         history: messages,
       });
 
       const aiMessage: Message = {
         role: 'model',
-        parts: [{ text: response.response }],
+        parts: [{ text: result.response }],
       };
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
       const errorMessage: Message = {
         role: 'model',
-        parts: [{ text: "I'm sorry, I'm having trouble connecting right now. Please try again later." }],
+        parts: [{ text: "I'm sorry, I'm having trouble connecting to my knowledge base right now. Please try again in a moment." }],
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
@@ -90,7 +90,6 @@ export function AiChatAssistant({ show }: { show: boolean; onHide?: () => void }
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5 }}
           >
-            {/* Active Hint/Notification */}
             <AnimatePresence>
               {showNotification && (
                 <motion.div
@@ -156,15 +155,13 @@ export function AiChatAssistant({ show }: { show: boolean; onHide?: () => void }
               <CardContent className="flex-1 p-0 bg-muted/10 overflow-hidden">
                 <ScrollArea className="h-full p-4">
                   <div className="space-y-4">
-                    {/* Welcome Message */}
                     <div className="flex items-start gap-3">
                       {avatarImage && <AvatarWithRing imageUrl={avatarImage.imageUrl} alt="Assistant" className="h-8 w-8" />}
                       <div className="bg-background border p-3 rounded-2xl rounded-tl-none text-sm shadow-sm max-w-[85%]">
-                        <p className="leading-relaxed">Hi! I'm Harshad's AI assistant. I'm active and ready to answer your questions about his skills, projects, or background. What would you like to know?</p>
+                        <p className="leading-relaxed">Hi! I'm Harshad's AI assistant. Ask me anything about his projects, skills, or engineering background!</p>
                       </div>
                     </div>
 
-                    {/* Chat History */}
                     {messages.map((msg, idx) => (
                       <div
                         key={idx}
@@ -190,7 +187,6 @@ export function AiChatAssistant({ show }: { show: boolean; onHide?: () => void }
                       </div>
                     ))}
 
-                    {/* Loading State */}
                     {isProcessing && (
                       <div className="flex items-start gap-3">
                         <div className="h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center">

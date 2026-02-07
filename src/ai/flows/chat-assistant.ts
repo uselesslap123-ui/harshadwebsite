@@ -2,14 +2,14 @@
 'use server';
 
 /**
- * @fileOverview A conversational AI assistant for the portfolio website.
+ * @fileOverview A conversational AI assistant for Harshad's portfolio website.
  *
  * - chatWithAssistant - A function that handles the conversation with the AI assistant.
  * - ChatWithAssistantInput - The input type for the function.
  * - ChatWithAssistantOutput - The return type for the function.
  */
 
-import { ai } from '@/ai/genkit';
+import { ai, model } from '@/ai/genkit';
 import { z } from 'genkit';
 import { studentName, summary, skills, experiences, projects, education } from '@/lib/data';
 
@@ -31,26 +31,24 @@ export async function chatWithAssistant(
 }
 
 const portfolioContext = `
-You are an AI assistant for ${studentName}'s portfolio website. Your goal is to answer questions from visitors in a friendly, helpful, and professional manner.
-You have access to all of Harshad's portfolio information. Use it to answer questions accurately.
+You are an enthusiastic AI assistant for ${studentName}'s portfolio website. Your goal is to help visitors learn about Harshad's background, skills, and projects.
 
-Here is the information you have about Harshad Shewale:
+CONTEXT DATA:
 - Name: ${studentName}
 - Summary: ${summary.description}
 - Inspiring Quote: "${summary.inspiring_quote}"
-- Education: ${education.degree} at ${education.university} (${education.years}). Currently a 2nd-year student.
+- Education: ${education.degree} at ${education.university} (${education.years}). ${education.status}.
 - Skills: ${skills.map(s => s.name).join(', ')}.
-- Experience/Training:
-  ${experiences.map(e => `- ${e.title} at ${e.company} (${e.year})`).join('\n  ')}
-- Projects:
-  ${projects.map(p => `- ${p.name}: ${p.description}`).join('\n  ')}
+- Recent Experience:
+  ${experiences.slice(0, 3).map(e => `- ${e.title} at ${e.company} (${e.year})`).join('\n  ')}
+- Top Projects:
+  ${projects.slice(0, 3).map(p => `- ${p.name}: ${p.description}`).join('\n  ')}
 
-Your Persona:
-- You are enthusiastic and positive.
-- You are knowledgeable about Harshad's skills and experience.
-- Keep your answers concise and to the point.
-- If you don't know the answer to a question, politely say that you don't have that information but can direct them to the contact form.
-- Gently guide users to the contact form for any direct inquiries or job opportunities for Harshad.
+GUIDELINES:
+1. Be professional, friendly, and helpful.
+2. Keep responses concise (2-4 sentences).
+3. If you don't have specific data, politely suggest they use the contact form to reach out to Harshad directly.
+4. Encourage users to check out the "Projects" section for more details.
 `;
 
 const chatAssistantFlow = ai.defineFlow(
@@ -60,17 +58,33 @@ const chatAssistantFlow = ai.defineFlow(
     outputSchema: ChatWithAssistantOutputSchema,
   },
   async ({ history, message }) => {
-    const genkitHistory = history.map((msg: any) => ({
-      role: msg.role,
-      content: msg.parts,
-    }));
+    try {
+      const genkitHistory = history.map((msg: any) => ({
+        role: msg.role === 'model' ? 'model' : 'user',
+        content: msg.parts || [{ text: msg.text || '' }],
+      }));
 
-    const { output } = await ai.generate({
-      system: portfolioContext,
-      history: genkitHistory,
-      prompt: message,
-    });
+      const { output } = await ai.generate({
+        model: model,
+        system: portfolioContext,
+        history: genkitHistory,
+        prompt: message,
+        config: {
+          safetySettings: [
+            { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },
+            { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
+            { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' },
+            { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
+          ],
+        },
+      });
 
-    return { response: output?.text || "I'm sorry, I couldn't generate a response." };
+      return { 
+        response: output?.text || "I'm here to help! Could you please rephrase your question?" 
+      };
+    } catch (error) {
+      console.error('Chat Flow Error:', error);
+      throw new Error('Failed to generate response');
+    }
   }
 );
