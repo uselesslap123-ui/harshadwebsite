@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { X, Bot, Send, User, Loader2, MessageSquare } from 'lucide-react';
+import { X, Bot, Send, User, Loader2, MessageSquare, Sparkles } from 'lucide-react';
 import { AvatarWithRing } from '../shared/avatar-with-ring';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { chatWithAssistant } from '@/ai/flows/chat-assistant';
@@ -17,13 +17,22 @@ type Message = {
   parts: [{ text: string }];
 };
 
-export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () => void }) {
+export function AiChatAssistant({ show }: { show: boolean; onHide?: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const avatarImage = PlaceHolderImages.find((p) => p.id === 'avatar');
+
+  // Active effect: Show a small notification hint after 3 seconds to encourage interaction
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isOpen) setShowNotification(true);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [isOpen]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -76,18 +85,43 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
       <AnimatePresence>
         {!isOpen && (
           <motion.div
-            className="fixed bottom-6 right-6 z-50"
+            className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5 }}
           >
+            {/* Active Hint/Notification */}
+            <AnimatePresence>
+              {showNotification && (
+                <motion.div
+                  initial={{ opacity: 0, x: 20, y: 10 }}
+                  animate={{ opacity: 1, x: 0, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  className="bg-primary text-primary-foreground px-4 py-2 rounded-2xl rounded-br-none shadow-xl text-sm font-medium mb-2 flex items-center gap-2"
+                >
+                  <Sparkles size={14} className="animate-pulse" />
+                  Ask me about Harshad!
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); setShowNotification(false); }}
+                    className="ml-2 opacity-70 hover:opacity-100"
+                  >
+                    <X size={14} />
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             <Button
               size="lg"
-              className="rounded-full shadow-lg h-16 w-16"
-              onClick={() => setIsOpen(true)}
+              className="rounded-full shadow-2xl h-16 w-16 group relative overflow-hidden"
+              onClick={() => {
+                setIsOpen(true);
+                setShowNotification(false);
+              }}
               aria-label="Open AI Assistant"
             >
-              <MessageSquare size={28} />
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary to-accent opacity-0 group-hover:opacity-10 transition-opacity" />
+              <MessageSquare size={28} className="group-hover:scale-110 transition-transform" />
             </Button>
           </motion.div>
         )}
@@ -102,28 +136,31 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
             animate="open"
             exit="closed"
           >
-            <Card className="w-full h-full flex flex-col shadow-2xl rounded-none sm:rounded-xl overflow-hidden border-primary/20">
+            <Card className="w-full h-full flex flex-col shadow-2xl rounded-none sm:rounded-2xl overflow-hidden border-primary/20 bg-background/95 backdrop-blur-sm">
               <CardHeader className="flex flex-row items-center justify-between bg-primary text-primary-foreground p-4">
                 <div className="flex items-center gap-3">
-                  <Bot size={24} className="animate-pulse" />
+                  <div className="relative">
+                    <Bot size={24} className="animate-pulse" />
+                    <div className="absolute -bottom-1 -right-1 h-3 w-3 bg-green-500 rounded-full border-2 border-primary" />
+                  </div>
                   <div>
-                    <CardTitle className="text-lg font-semibold leading-none">Harshad's AI</CardTitle>
-                    <p className="text-xs opacity-80 mt-1">Online & ready to help</p>
+                    <CardTitle className="text-lg font-bold tracking-tight">AI Assistant</CardTitle>
+                    <p className="text-[10px] uppercase tracking-wider opacity-80 font-bold">Harshad's Knowledge Base</p>
                   </div>
                 </div>
-                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-white/20" onClick={() => setIsOpen(false)}>
+                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-white/20 text-white" onClick={() => setIsOpen(false)}>
                   <X size={20} />
                 </Button>
               </CardHeader>
               
-              <CardContent className="flex-1 p-0 bg-muted/30 overflow-hidden">
+              <CardContent className="flex-1 p-0 bg-muted/10 overflow-hidden">
                 <ScrollArea className="h-full p-4">
                   <div className="space-y-4">
                     {/* Welcome Message */}
                     <div className="flex items-start gap-3">
                       {avatarImage && <AvatarWithRing imageUrl={avatarImage.imageUrl} alt="Assistant" className="h-8 w-8" />}
-                      <div className="bg-background border p-3 rounded-lg rounded-tl-none text-sm shadow-sm max-w-[85%]">
-                        <p>Hi! I'm Harshad's AI assistant. Ask me anything about his projects, skills, or experience!</p>
+                      <div className="bg-background border p-3 rounded-2xl rounded-tl-none text-sm shadow-sm max-w-[85%]">
+                        <p className="leading-relaxed">Hi! I'm Harshad's AI assistant. I'm active and ready to answer your questions about his skills, projects, or background. What would you like to know?</p>
                       </div>
                     </div>
 
@@ -137,13 +174,13 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
                         )}
                       >
                         <div className={cn(
-                          "h-8 w-8 rounded-full flex items-center justify-center shrink-0",
+                          "h-8 w-8 rounded-full flex items-center justify-center shrink-0 shadow-sm",
                           msg.role === 'user' ? "bg-accent text-accent-foreground" : "bg-primary text-primary-foreground"
                         )}>
                           {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
                         </div>
                         <div className={cn(
-                          "p-3 rounded-lg text-sm shadow-sm max-w-[85%]",
+                          "p-3 rounded-2xl text-sm shadow-sm max-w-[85%] leading-relaxed",
                           msg.role === 'user' 
                             ? "bg-primary text-primary-foreground rounded-tr-none" 
                             : "bg-background border rounded-tl-none text-foreground"
@@ -159,7 +196,7 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
                         <div className="h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
                           <Bot size={16} />
                         </div>
-                        <div className="bg-background border p-3 rounded-lg rounded-tl-none text-sm shadow-sm">
+                        <div className="bg-background border p-3 rounded-2xl rounded-tl-none text-sm shadow-sm">
                           <Loader2 size={16} className="animate-spin text-primary" />
                         </div>
                       </div>
@@ -177,9 +214,9 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
                     placeholder="Ask about projects..."
                     autoComplete="off"
                     disabled={isProcessing}
-                    className="flex-1"
+                    className="flex-1 rounded-full border-muted-foreground/20 focus-visible:ring-primary"
                   />
-                  <Button type="submit" size="icon" disabled={!input.trim() || isProcessing}>
+                  <Button type="submit" size="icon" className="rounded-full shrink-0" disabled={!input.trim() || isProcessing}>
                     <Send size={18} />
                   </Button>
                 </form>
