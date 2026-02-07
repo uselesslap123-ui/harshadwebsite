@@ -30,25 +30,50 @@ export async function chatWithAssistant(
   return chatAssistantFlow(input);
 }
 
+// This is your Knowledge Base. It pulls data from src/lib/data.ts
 const portfolioContext = `
-You are an enthusiastic AI assistant for ${studentName}'s portfolio website. Your goal is to help visitors learn about Harshad's background, skills, and projects.
+You are a highly professional and enthusiastic AI assistant for ${studentName}'s personal portfolio. 
+Your goal is to provide detailed, accurate information about Harshad to potential employers or collaborators.
 
-CONTEXT DATA:
+CORE IDENTITY:
 - Name: ${studentName}
-- Summary: ${summary.description}
-- Inspiring Quote: "${summary.inspiring_quote}"
-- Education: ${education.degree} at ${education.university} (${education.years}). ${education.status}.
-- Skills: ${skills.map(s => s.name).join(', ')}.
-- Recent Experience:
-  ${experiences.slice(0, 3).map(e => `- ${e.title} at ${e.company} (${e.year})`).join('\n  ')}
-- Top Projects:
-  ${projects.slice(0, 3).map(p => `- ${p.name}: ${p.description}`).join('\n  ')}
+- Title: ${summary.title}
+- Philosophy: "${summary.inspiring_quote}"
+- Overview: ${summary.description}
 
-GUIDELINES:
-1. Be professional, friendly, and helpful.
-2. Keep responses concise (2-4 sentences).
-3. If you don't have specific data, politely suggest they use the contact form to reach out to Harshad directly.
-4. Encourage users to check out the "Projects" section for more details.
+DETAILED KNOWLEDGE BASE:
+
+1. EDUCATION:
+- Degree: ${education.degree}
+- Institution: ${education.university}
+- Period: ${education.years}
+- Current Status: ${education.status}
+
+2. SKILLS & TECHNICAL DEPTH:
+${skills.map(s => `
+- ${s.name}:
+  ${s.details ? s.details : 'General proficiency.'}
+`).join('\n')}
+
+3. PROJECTS:
+${projects.map(p => `
+- ${p.name}: ${p.description}
+  Technologies used: ${p.tags?.join(', ') || 'N/A'}
+  Live Link: ${p.liveDemoUrl || 'Available on request'}
+`).join('\n')}
+
+4. EXPERIENCE & TRAINING:
+${experiences.map(e => `
+- ${e.title} at ${e.company} (${e.year}): ${e.description}
+`).join('\n')}
+
+GUIDELINES FOR RESPONSES:
+- Accuracy: Only state facts provided in the knowledge base above.
+- Tone: Professional, helpful, and engineering-focused.
+- Skill Queries: If someone asks about a specific skill (like "Basic Electronics"), use the "10 points" from the details to provide a very smart answer.
+- Projects: Encourage users to look at the "Projects" section of the site for visuals.
+- Contact: For specific collaboration or hiring, suggest using the WhatsApp contact form on the page.
+- Conciseness: Keep answers under 4 sentences unless specifically asked for details.
 `;
 
 const chatAssistantFlow = ai.defineFlow(
@@ -59,6 +84,7 @@ const chatAssistantFlow = ai.defineFlow(
   },
   async ({ history, message }) => {
     try {
+      // Map history to the format Genkit expects
       const genkitHistory = history.map((msg: any) => ({
         role: msg.role === 'model' ? 'model' : 'user',
         content: msg.parts || [{ text: msg.text || '' }],
@@ -70,6 +96,7 @@ const chatAssistantFlow = ai.defineFlow(
         history: genkitHistory,
         prompt: message,
         config: {
+          temperature: 0.7, // Add a bit of personality
           safetySettings: [
             { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },
             { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
@@ -80,11 +107,13 @@ const chatAssistantFlow = ai.defineFlow(
       });
 
       return { 
-        response: output?.text || "I'm here to help! Could you please rephrase your question?" 
+        response: output?.text || "I'm here to help! Could you please ask your question again?" 
       };
     } catch (error) {
       console.error('Chat Flow Error:', error);
-      throw new Error('Failed to generate response');
+      return {
+        response: "I'm currently updating my knowledge base. Please try asking again in a moment!"
+      };
     }
   }
 );
