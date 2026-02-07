@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -7,10 +6,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { MessageSquare, Send, X, Loader2, Bot, Volume2, VolumeX } from 'lucide-react';
+import { MessageSquare, Send, X, Loader2, Bot, Volume2, VolumeX, FileText } from 'lucide-react';
 import { textToSpeech } from '@/ai/flows/text-to-speech';
 import { AvatarWithRing } from '../shared/avatar-with-ring';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { jsPDF } from 'jspdf';
+import { studentName } from '@/lib/data';
+import { useToast } from '@/hooks/use-toast';
 
 type Message = {
   role: 'user' | 'model';
@@ -23,6 +25,7 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
   const [input, setInput] = useState('');
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const avatarImage = PlaceHolderImages.find(p => p.id === 'avatar');
+  const { toast } = useToast();
 
   const [audioLoadingId, setAudioLoadingId] = useState<string | null>(null);
   const [playingAudioId, setPlayingAudioId] = useState<string | null>(null);
@@ -51,6 +54,35 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
     };
   }, []);
 
+  const generateQuickPdf = (message: string) => {
+    const doc = new jsPDF();
+    const timestamp = new Date().toLocaleString();
+
+    doc.setFontSize(20);
+    doc.setTextColor(63, 81, 181);
+    doc.text('Quick Inquiry', 20, 30);
+    
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.text(`Generated: ${timestamp}`, 20, 40);
+    
+    doc.line(20, 45, 190, 45);
+
+    doc.setFontSize(12);
+    doc.setTextColor(0);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Message Content:', 20, 60);
+
+    doc.setFont('helvetica', 'normal');
+    doc.text(doc.splitTextToSize(message, 150), 20, 70);
+
+    doc.setFontSize(10);
+    doc.setTextColor(150);
+    doc.text(`Message sent to ${studentName} via Chat Assistant`, 20, 280);
+
+    doc.save(`Quick_Message_${Date.now()}.pdf`);
+  };
+
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -59,10 +91,21 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
     setHistory((prev) => [...prev, userMessage]);
     
     const phoneNumber = "9130947966";
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(input)}`;
-    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    const formattedMsg = `*New Quick Inquiry (PDF Generated)*\n\n${input}\n\n_Sent via Portfolio Chat_`;
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(formattedMsg)}`;
     
-    setInput('');
+    // Generate PDF
+    generateQuickPdf(input);
+
+    // Redirect
+    setTimeout(() => {
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      toast({
+        title: 'PDF Exported!',
+        description: 'Your message has been converted to PDF. Please attach it in WhatsApp.',
+      });
+      setInput('');
+    }, 500);
   };
   
   const handleSpeak = async (messageId: string, text: string) => {
@@ -148,7 +191,7 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
               <CardHeader className="flex flex-row items-center justify-between bg-primary text-primary-foreground p-4 border-b">
                 <div className="flex items-center gap-3">
                   <Bot size={24} />
-                  <CardTitle className="text-lg font-semibold">Message on WhatsApp</CardTitle>
+                  <CardTitle className="text-lg font-semibold">Inquiry PDF & WhatsApp</CardTitle>
                 </div>
                 <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-primary/80" onClick={() => { setIsOpen(false); onHide(); }}>
                   <X size={20} />
@@ -161,12 +204,12 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
                       {avatarImage && <AvatarWithRing imageUrl={avatarImage.imageUrl} alt="AI Assistant" />}
                       <div className="bg-muted p-3 rounded-lg rounded-tl-none max-w-[80%] group relative">
                         <p className="font-semibold text-sm mb-1">Assistant</p>
-                        <p className="text-sm">Hi there! Type your message below and I'll redirect you to WhatsApp to send it directly to me.</p>
+                        <p className="text-sm">Hi there! Type your message. I'll generate a formal PDF for you and then redirect you to WhatsApp so you can send it directly to Harshad.</p>
                          <Button
                             variant="ghost"
                             size="icon"
                             className="absolute -bottom-4 -right-4 h-8 w-8 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity"
-                            onClick={() => handleSpeak("initial-greeting", "Hi there! Type your message below and I'll redirect you to WhatsApp to send it directly to me.")}
+                            onClick={() => handleSpeak("initial-greeting", "Hi there! Type your message. I'll generate a formal PDF for you and then redirect you to WhatsApp so you can send it directly to Harshad.")}
                             disabled={audioLoadingId !== null}
                         >
                             {audioLoadingId === "initial-greeting" ? (
@@ -228,11 +271,11 @@ export function AiChatAssistant({ show, onHide }: { show: boolean; onHide: () =>
                   <Input
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder="Type your message..."
+                    placeholder="Type inquiry here..."
                     autoComplete="off"
                   />
                   <Button type="submit" size="icon" disabled={!input.trim()}>
-                    <Send size={20} />
+                    <FileText size={20} />
                   </Button>
                 </form>
               </CardFooter>

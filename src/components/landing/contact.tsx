@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -14,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Send, Loader2, FileText } from 'lucide-react';
 import { jsPDF } from 'jspdf';
+import { studentName } from '@/lib/data';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -42,47 +42,61 @@ export function Contact() {
     const doc = new jsPDF();
     const timestamp = new Date().toLocaleString();
 
+    // Background decoration
+    doc.setFillColor(245, 245, 250);
+    doc.rect(0, 0, 210, 297, 'F');
+
     // Header
-    doc.setFontSize(22);
-    doc.setTextColor(63, 81, 181); // Primary color theme
-    doc.text('Inquiry Document', 20, 20);
+    doc.setDrawColor(63, 81, 181);
+    doc.setLineWidth(1.5);
+    doc.line(20, 25, 190, 25);
+
+    doc.setFontSize(24);
+    doc.setTextColor(63, 81, 181);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Professional Inquiry', 20, 45);
     
     doc.setFontSize(10);
     doc.setTextColor(100);
-    doc.text(`Generated on: ${timestamp}`, 20, 30);
-    
-    doc.setLineWidth(0.5);
-    doc.line(20, 35, 190, 35);
-
-    // Content
-    doc.setFontSize(14);
-    doc.setTextColor(0);
-    doc.setFont('helvetica', 'bold');
-    doc.text('Contact Details:', 20, 50);
-
     doc.setFont('helvetica', 'normal');
+    doc.text(`Reference ID: ${Math.random().toString(36).substring(7).toUpperCase()}`, 150, 45);
+    doc.text(`Generated: ${timestamp}`, 20, 55);
+    
+    // Content Box
+    doc.setFillColor(255, 255, 255);
+    doc.roundedRect(20, 65, 170, 100, 3, 3, 'F');
+    doc.setDrawColor(230, 230, 230);
+    doc.roundedRect(20, 65, 170, 100, 3, 3, 'S');
+
     doc.setFontSize(12);
-    const details = [
-      ['Full Name:', data.name],
-      ['Email Address:', data.email],
-      ['Contact Number:', data.contactNo || 'Not Provided'],
-      ['Subject:', data.subject],
-      ['Target Position:', data.position],
+    doc.setTextColor(50);
+    
+    const fields = [
+      { label: 'Sender Name', value: data.name },
+      { label: 'Email Address', value: data.email },
+      { label: 'Contact Number', value: data.contactNo || 'Not Provided' },
+      { label: 'Subject', value: data.subject },
+      { label: 'Applied Position', value: data.position },
     ];
 
-    let yPos = 65;
-    details.forEach(([label, value]) => {
+    let yPos = 85;
+    fields.forEach((field) => {
       doc.setFont('helvetica', 'bold');
-      doc.text(label, 20, yPos);
+      doc.text(`${field.label}:`, 30, yPos);
       doc.setFont('helvetica', 'normal');
-      doc.text(value, 60, yPos);
-      yPos += 12;
+      doc.text(String(field.value), 80, yPos);
+      yPos += 15;
     });
 
     // Footer
-    doc.setFontSize(10);
-    doc.setTextColor(150);
-    doc.text('This is an automated document generated from Harshad Shewale\'s Portfolio.', 20, 280);
+    doc.setDrawColor(63, 81, 181);
+    doc.setLineWidth(0.5);
+    doc.line(20, 265, 190, 265);
+    
+    doc.setFontSize(9);
+    doc.setTextColor(120);
+    doc.text(`Official Inquiry for ${studentName}`, 20, 275);
+    doc.text('This document serves as a formal record of contact.', 20, 282);
 
     doc.save(`Inquiry_${data.name.replace(/\s+/g, '_')}.pdf`);
   };
@@ -90,35 +104,44 @@ export function Contact() {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
 
-    const { name, email, contactNo, subject, position } = values;
-    const phoneNumber = "9130947966";
-    
-    // Proper Markdown Formatting for WhatsApp
-    const formattedMessage = `*New Inquiry Details*\n` +
-      `----------------------------\n` +
-      `👤 *Name:* ${name}\n` +
-      `📧 *Email:* ${email}\n` +
-      `📞 *Contact:* ${contactNo || 'N/A'}\n` +
-      `📌 *Subject:* ${subject}\n` +
-      `💼 *Position:* ${position}\n` +
-      `----------------------------\n` +
-      `_Generated via Harshad's Portfolio_`;
+    try {
+      const { name, email, contactNo, subject, position } = values;
+      const phoneNumber = "9130947966";
+      
+      const formattedMessage = `*Formal Inquiry (PDF Generated)*\n` +
+        `----------------------------\n` +
+        `👤 *Name:* ${name}\n` +
+        `📧 *Email:* ${email}\n` +
+        `📞 *Contact:* ${contactNo || 'N/A'}\n` +
+        `📌 *Subject:* ${subject}\n` +
+        `💼 *Position:* ${position}\n` +
+        `----------------------------\n` +
+        `_Note: I have attached the formal PDF inquiry for your records._`;
 
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(formattedMessage)}`;
+      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(formattedMessage)}`;
 
-    // Generate and Download PDF
-    generatePDF(values);
+      // Generate PDF
+      generatePDF(values);
 
-    // Redirect to WhatsApp
-    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-    
-    toast({
-      title: 'Success!',
-      description: "PDF generated and redirecting to WhatsApp.",
-    });
+      // Small delay to ensure download starts before redirect
+      setTimeout(() => {
+        window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        toast({
+          title: 'PDF Generated & Downloaded!',
+          description: "Please attach the PDF in the WhatsApp chat that just opened.",
+        });
+        form.reset();
+        setIsSubmitting(false);
+      }, 500);
 
-    form.reset();
-    setIsSubmitting(false);
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to process inquiry. Please try again.',
+        variant: 'destructive',
+      });
+      setIsSubmitting(false);
+    }
   };
   
   const containerVariants = {
@@ -238,11 +261,11 @@ export function Contact() {
                     {isSubmitting ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Generating...
+                        Processing...
                       </>
                     ) : (
                       <>
-                        Send & Export PDF
+                        Send Inquiry (PDF Generated)
                         <FileText className="ml-2 h-4 w-4" />
                       </>
                     )}
