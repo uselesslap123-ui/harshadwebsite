@@ -18,6 +18,14 @@ type Message = {
   parts: [{ text: string }];
 };
 
+const SUGGESTED_QUESTIONS = [
+  "What projects have you worked on?",
+  "Tell me about your Basic Electronics skills.",
+  "What did you learn at the AI Bootcamp?",
+  "Tell me about the Robonauts club.",
+  "What is your philosophy on engineering?",
+];
+
 export function AiChatAssistant({ show }: { show: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
@@ -40,11 +48,12 @@ export function AiChatAssistant({ show }: { show: boolean }) {
     }
   }, [messages, isProcessing]);
 
-  const handleSendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || isProcessing) return;
+  const handleSendMessage = async (e?: React.FormEvent, textOverride?: string) => {
+    if (e) e.preventDefault();
+    
+    const userMessage = textOverride || input.trim();
+    if (!userMessage || isProcessing) return;
 
-    const userMessage = input.trim();
     const newMessage: Message = { role: 'user', parts: [{ text: userMessage }] };
     
     setMessages((prev) => [...prev, newMessage]);
@@ -162,11 +171,28 @@ export function AiChatAssistant({ show }: { show: boolean }) {
                       </div>
                     </div>
 
+                    {messages.length === 0 && !isProcessing && (
+                      <div className="pl-11 pr-4 py-2 space-y-2">
+                        <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest mb-1">Suggested Questions</p>
+                        <div className="flex flex-wrap gap-2">
+                          {SUGGESTED_QUESTIONS.map((q, i) => (
+                            <button
+                              key={i}
+                              onClick={() => handleSendMessage(undefined, q)}
+                              className="text-left bg-background border border-primary/20 hover:border-primary hover:bg-primary/5 transition-colors px-3 py-1.5 rounded-full text-xs font-medium text-primary shadow-sm"
+                            >
+                              {q}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
                     {messages.map((msg, idx) => (
                       <div
                         key={idx}
                         className={cn(
-                          "flex items-start gap-3",
+                          "flex items-start gap-3 animate-fade-in",
                           msg.role === 'user' ? "flex-row-reverse" : "flex-row"
                         )}
                       >
@@ -203,7 +229,7 @@ export function AiChatAssistant({ show }: { show: boolean }) {
               </CardContent>
 
               <CardFooter className="p-4 border-t bg-background">
-                <form onSubmit={handleSendMessage} className="flex w-full items-center gap-2">
+                <form onSubmit={(e) => handleSendMessage(e)} className="flex w-full items-center gap-2">
                   <Input
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
