@@ -159,7 +159,7 @@ export const skills: Skill[] = [
 * **Putting Knowledge into Practice** — Building personal projects or contributing to open source to apply newly learned skills in a real-world context.
 * **Staying Current with Industry Trends** — Following tech news, blogs, and thought leaders to stay informed about the latest developments and best practices.
 * **Engaging with the Community** — Participating in forums, attending meetups, or joining online communities to learn from and share knowledge with others.
-* **Asking for Challenges** — Showing enthusiasm for taking on new and more difficult tasks that push personal boundaries and expand skill sets.
+* **Asking for Challenges** Show enthusiasm for taking on new and more difficult tasks that push personal boundaries and expand skill sets.
 * **Taking Ownership of Knowledge Gaps** — Honestly identifying areas of weakness and creating a plan to address them through targeted learning.
 * **Experimentation and Tinkering** — Having a passion for playing with code, breaking things, and learning by doing, even without a specific goal.
 * **Teaching Others** — Solidifying one's own understanding by explaining concepts to others, whether through pair programming, writing articles, or giving presentations.`
@@ -167,6 +167,27 @@ export const skills: Skill[] = [
 ];
 
 export const experiences = [
+    {
+        year: "2025",
+        company: "EDC IIT Delhi",
+        title: "Campus Ambassador (Certificate)",
+        description: "Awarded a Certificate of Completion for the Campus Ambassador program at IIT Delhi, demonstrating leadership in fostering entrepreneurship.",
+        certificateUrl: "https://www.linkedin.com/posts/harshad-shewale-5189b428a_iitdelhi-entrepreneurship-campusambassador-activity-7427762470238351360-tieX?utm_source=social_share_send&utm_medium=android_app&rcm=ACoAAEZFZOQBuT5l1pOw_DuSRnMu77_NBxH__Mk&utm_campaign=copy_link",
+    },
+    {
+        year: "2025",
+        company: "AI Bootcamp",
+        title: "Full Stack AI Development (Completion)",
+        description: "Successfully completed an intensive training program, mastering the art of building scalable, end-to-end AI applications.",
+        certificateUrl: "https://www.linkedin.com/posts/harshad-shewale-5189b428a_artificialintelligence-fullstackdevelopment-activity-7429553918361190400-isdU?utm_source=social_share_send&utm_medium=android_app&rcm=ACoAAEZFZOQBuT5l1pOw_DuSRnMu77_NBxH__Mk&utm_campaign=copy_link",
+    },
+    {
+        year: "2024",
+        company: "EDC IIT Delhi",
+        title: "Campus Ambassador (Offer Letter)",
+        description: "Received the official offer letter to represent IIT Delhi's Entrepreneurship Development Cell as a Campus Ambassador.",
+        certificateUrl: "https://www.linkedin.com/posts/harshad-shewale-5189b428a_campusambassador-edciitdelhi-iitdelhi-activity-7409124355080630274-nBj9?utm_source=social_share_send&utm_medium=android_app&rcm=ACoAAEZFZOQBuT5l1pOw_DuSRnMu77_NBxH__Mk&utm_campaign=copy_link",
+    },
     {
         year: "2025",
         company: "Red Bull",
@@ -208,14 +229,7 @@ export const experiences = [
         title: "GenAI Data Analyst",
         description: "Intensive workshop on leveraging Generative AI for data analysis and interpretation.",
         certificateUrl: "https://www.linkedin.com/posts/harshad-shewale-5189b428a_genai-aiinanalytics-dataanalytics-activity-7398620806236291072-kg17?utm_source=social_share_send&utm_medium=android_app&rcm=ACoAAEZFZOQBuT5l1pOw_DuSRnMu77_NBxH__Mk&utm_campaign=share_via",
-    },
-    {
-        year: "2025",
-        company: "Bootcamp",
-        title: "Full Stack AI Development",
-        description: "Comprehensive bootcamp covering the entire stack of AI application development, from backend models to frontend interfaces.",
-        certificateUrl: "https://www.linkedin.com/posts/kumarmajethia_join-our-2nd-in-person-full-stack-ai-bootcamp-activity-7350215846272630786-dhiw?utm_source=social_share_video_v2&utm_medium=android_app&rcm=ACoAAEZFZOQBuT5l1pOw_DuSRnMu77_NBxH__Mk&utm_campaign=copy_link",
-    },
+    }
 ];
 
 export type Project = {
