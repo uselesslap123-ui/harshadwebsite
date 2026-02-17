@@ -67,29 +67,74 @@ export function Skills() {
     }
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0, scale: 0.95 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 15
+      }
+    }
+  };
+
   const contentForSkill = (skill: Skill, index: number) => {
     const isClickable = !!skill.url || !!skill.details;
     
     return (
-      <Card 
-        key={index}
-        className={`group relative overflow-hidden hover:shadow-lg hover:-translate-y-1 active:shadow-2xl active:scale-95 transition-all duration-300 h-full ${isClickable ? 'cursor-pointer' : ''}`}
+      <motion.div
+        variants={itemVariants}
+        whileHover={{ 
+            scale: 1.05, 
+            y: -5,
+            transition: { duration: 0.2 } 
+        }}
+        whileTap={{ scale: 0.95 }}
+        className="h-full"
       >
-        <CardContent className="flex flex-col items-center justify-center p-6 text-center h-full">
-          <skill.icon className="h-10 w-10 mb-4 text-primary group-hover:scale-110 transition-transform" />
-          <p className="font-semibold text-sm md:text-base">{skill.name}</p>
-        </CardContent>
-      </Card>
+        <Card 
+            className={`group relative overflow-hidden shadow-sm hover:shadow-xl border-primary/5 hover:border-primary/20 transition-all duration-300 h-full bg-background/50 backdrop-blur-sm ${isClickable ? 'cursor-pointer' : ''}`}
+        >
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <CardContent className="flex flex-col items-center justify-center p-6 text-center h-full relative z-10">
+                <div className="p-3 rounded-2xl bg-primary/5 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 mb-4">
+                    <skill.icon className="h-8 w-8 group-hover:scale-110 transition-transform" />
+                </div>
+                <p className="font-bold text-sm md:text-base tracking-tight">{skill.name}</p>
+                {isClickable && (
+                    <div className="mt-2 w-0 group-hover:w-8 h-0.5 bg-primary transition-all duration-300" />
+                )}
+            </CardContent>
+        </Card>
+      </motion.div>
     );
   }
 
   return (
-    <SectionWrapper id="skills" className="bg-card">
+    <SectionWrapper id="skills" className="bg-card relative overflow-hidden">
+        {/* Decorative background elements */}
+        <div className="absolute top-1/4 -left-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 -right-20 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
+
         <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5 }}
+            className="relative z-10"
         >
             <SectionTitle>My Skillset</SectionTitle>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 max-w-5xl mx-auto">
