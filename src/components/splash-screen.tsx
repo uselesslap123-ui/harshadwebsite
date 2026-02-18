@@ -16,99 +16,95 @@ export function SplashScreen() {
           clearInterval(timer);
           return 100;
         }
-        return prev + 2;
+        return prev + 1.5;
       });
-    }, 40);
+    }, 30);
     return () => clearInterval(timer);
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background overflow-hidden">
-      {/* Dynamic Background Elements */}
-      <div className="absolute inset-0 z-0">
+    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background overflow-hidden px-6">
+      {/* Ultra-subtle background gradients */}
+      <div className="absolute inset-0 z-0 opacity-40">
         <motion.div 
-          className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px]"
+          className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-primary/5 rounded-full blur-[160px]"
           animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div 
-          className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-accent/10 rounded-full blur-[150px]"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.3, 0.6, 0.3],
+            scale: [1, 1.1, 1],
+            opacity: [0.2, 0.4, 0.2],
           }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         />
+        <motion.div 
+          className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-accent/5 rounded-full blur-[160px]"
+          animate={{
+            scale: [1.1, 1, 1.1],
+            opacity: [0.2, 0.4, 0.2],
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        />
       </div>
 
-      <div className="relative z-10 flex flex-col items-center">
-        {/* Logo / Icon Area */}
+      <div className="relative z-10 w-full max-w-md flex flex-col items-center">
+        {/* Minimal Icon */}
         <motion.div
-          initial={{ opacity: 0, y: 20, scale: 0.8 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mb-8"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="mb-12"
         >
-          <div className="p-4 rounded-3xl bg-primary/5 border border-primary/20 backdrop-blur-md">
-            <Sparkles className="h-10 w-10 text-primary animate-pulse" />
-          </div>
+          <Sparkles className="h-6 w-6 text-primary/40" />
         </motion.div>
 
-        {/* Text Content */}
-        <div className="text-center mb-12">
+        {/* Clean Typography */}
+        <div className="text-center mb-16 space-y-4">
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 1 }}
+            initial={{ opacity: 0, letterSpacing: "0.2em" }}
+            animate={{ opacity: 1, letterSpacing: "0.4em" }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
           >
-            <h2 className="text-xs font-bold tracking-[0.3em] uppercase text-primary/60 mb-2">Portfolio of</h2>
-            <h1 className="text-5xl md:text-7xl font-headline font-black tracking-tighter text-foreground">
-              {firstName}
-              <motion.span 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.2 }}
-                className="text-primary"
-              >
-                .
-              </motion.span>
-            </h1>
+            <h2 className="text-[10px] font-bold uppercase text-primary/50 tracking-[0.5em] mb-4">
+              Portfolio
+            </h2>
           </motion.div>
           
-          <motion.p 
-            initial={{ opacity: 0, y: 10 }}
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.8 }}
-            className="mt-4 text-lg text-muted-foreground font-medium italic"
+            transition={{ delay: 0.3, duration: 1, ease: "easeOut" }}
+            className="text-4xl md:text-6xl font-headline font-light tracking-tight text-foreground"
           >
-            Engineering the Future
+            {firstName}<span className="text-primary font-bold">.</span>
+          </motion.h1>
+
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8, duration: 1 }}
+            className="text-xs text-muted-foreground/60 tracking-widest uppercase font-medium"
+          >
+            Electronics Engineer & Developer
           </motion.p>
         </div>
 
-        {/* Professional Progress Bar */}
-        <div className="w-64 h-[2px] bg-muted relative overflow-hidden rounded-full">
-          <motion.div 
-            className="absolute top-0 left-0 h-full bg-primary"
-            initial={{ width: "0%" }}
-            animate={{ width: `${progress}%` }}
-            transition={{ ease: "linear" }}
-          />
+        {/* Cinematic Progress Bar */}
+        <div className="w-full max-w-[200px] flex flex-col items-center gap-4">
+          <div className="w-full h-[1px] bg-muted/30 relative overflow-hidden">
+            <motion.div 
+              className="absolute top-0 left-0 h-full bg-primary"
+              initial={{ width: "0%" }}
+              animate={{ width: `${progress}%` }}
+              transition={{ ease: "linear" }}
+            />
+          </div>
+          <motion.span 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-[8px] font-bold tracking-[0.3em] uppercase text-muted-foreground/40"
+          >
+            {Math.round(progress)}%
+          </motion.span>
         </div>
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="mt-4 text-[10px] font-bold tracking-widest uppercase text-muted-foreground/60"
-        >
-          Loading Assets {progress}%
-        </motion.div>
       </div>
-
-      {/* Subtle border framing */}
-      <div className="absolute inset-4 border border-primary/5 pointer-events-none rounded-2xl" />
     </div>
   );
 }
