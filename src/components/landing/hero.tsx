@@ -99,12 +99,32 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.5, duration: 0.8 }}
               >
-                <Button asChild size="lg" className="h-12 md:h-14 px-6 md:px-8 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full font-bold text-base md:text-lg group shadow-[0_0_20px_rgba(var(--primary),0.3)] hover:shadow-primary/50 transition-all duration-300 hover:-translate-y-1">
-                    <Link href="#projects">
-                    Explore My Portfolio
-                    <ArrowDown className="ml-2 h-4 w-4 md:h-5 md:w-5 transition-transform group-hover:translate-y-2" />
-                    </Link>
-                </Button>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  animate={{ 
+                    boxShadow: [
+                      "0 0 20px hsl(var(--primary) / 0.3)", 
+                      "0 0 40px hsl(var(--primary) / 0.6)", 
+                      "0 0 20px hsl(var(--primary) / 0.3)"
+                    ] 
+                  }}
+                  transition={{ 
+                    boxShadow: {
+                      duration: 2.5,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }
+                  }}
+                  className="rounded-full"
+                >
+                  <Button asChild size="lg" className="h-12 md:h-14 px-6 md:px-8 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full font-bold text-base md:text-lg group transition-all duration-300">
+                      <Link href="#projects">
+                      Explore My Portfolio
+                      <ArrowDown className="ml-2 h-4 w-4 md:h-5 md:w-5 transition-transform group-hover:translate-y-2" />
+                      </Link>
+                  </Button>
+                </motion.div>
               </motion.div>
             </motion.div>
         </motion.div>
