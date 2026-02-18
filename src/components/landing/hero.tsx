@@ -9,9 +9,11 @@ import { summary, studentName } from '@/lib/data';
 import { ArrowDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { WallEIcon } from '@/components/shared/icons';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 export function Hero() {
   const [isGreetingVisible, setIsGreetingVisible] = useState(true);
+  const heroBg = PlaceHolderImages.find(img => img.id === 'hero_bg');
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -25,14 +27,16 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden text-center px-4">
-        <Image
-            src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop"
-            alt="Semiconductor background"
-            fill
-            className="object-cover scale-110"
-            priority
-            data-ai-hint="semiconductor circuit"
-        />
+        {heroBg && (
+          <Image
+              src={heroBg.imageUrl}
+              alt={heroBg.description}
+              fill
+              className="object-cover scale-110"
+              priority
+              data-ai-hint={heroBg.imageHint}
+          />
+        )}
         <div className="absolute inset-0 bg-black/75" />
       <div className="container mx-auto relative z-10 flex flex-col items-center justify-center">
         <motion.div 
